@@ -6,7 +6,7 @@ import { queryHTML } from "../../helpers";
 const seed = async () => {
   try {
     const data = await queryHTML();
-    console.log(data.keys());
+    console.log(data);
     Promise.all(
       data.map(async (anime) => {
         const newAnime = new Anime({
