@@ -9,12 +9,15 @@ export default (dom: JSDOM) => {
 
   const content = removeDuplicates([...pageContent]);
   const animeNames = content.map((el) => {
-    let image = el?.querySelector(".lazy")?.getAttribute("data-original");
+    let image: string = el
+      ?.querySelector(".lazy")
+      ?.getAttribute("data-original");
     return {
       title: el?.getAttribute("title"),
       link: `${sites[0]}${el.getAttribute("href")}`,
       image,
     };
   });
-  return animeNames;
+  const animes = animeNames.filter((anime) => anime.title);
+  return animes;
 };

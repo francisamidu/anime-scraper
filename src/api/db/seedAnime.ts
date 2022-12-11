@@ -1,23 +1,34 @@
 import { Anime } from "./models";
 import { connect, disconnect } from "mongoose";
 import { queryHTML } from "../../helpers";
+import { Anime as IAnime } from "../../interfaces";
+import logger from "../../middleware/rootLogger";
 
 // Creates a test and admin account for testing purposes
 const seed = async () => {
   try {
     const data = await queryHTML();
-    console.log(data);
     Promise.all(
-      data.map(async (anime) => {
+      data.map(async (anime: IAnime) => {
         const newAnime = new Anime({
-          ...anime,
+          link: anime.link,
+          image: anime.image,
+          title: anime.title,
         });
         await newAnime.save();
       })
     );
-    console.log(`seeded anime data`);
-  } catch (error) {
-    console.log(`Seed failed:${error}`);
+    logger("Info", {
+      name: "Seeder",
+      message: "seeded anime data",
+    });
+    disconnect();
+    process.exit(0);
+  } catch (error: any) {
+    logger("Error", {
+      name: "Seeder",
+      message: `Seed failed:${error.message}`,
+    });
     disconnect();
   }
 };
