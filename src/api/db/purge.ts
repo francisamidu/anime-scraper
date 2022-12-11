@@ -6,7 +6,7 @@ const { npm_package_name } = process?.env;
 connect(`mongodb://localhost:27017/${npm_package_name}`)
   .then(async (res) => {
     try {
-      await res.connections[0].dropDatabase();
+      await res.connections[0].collections["animes"].drop();
       logger("info", {
         name: "Info",
         message: `Deleted database ${npm_package_name} successfully`,
