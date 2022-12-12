@@ -6,6 +6,7 @@ import { AnimeService } from "../services";
 
 const router = express.Router();
 
+router.get("/", use(AnimeService.index));
 router.get("/animes", use(AnimeService.animes));
 router.get("/anime/:animeId", use(AnimeService.anime));
 router.post(

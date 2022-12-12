@@ -23,4 +23,4 @@ const AnimeSchema = new Schema(
   { timestamps: true }
 );
 
-export default model("anime", AnimeSchema);
+export default model("animes", AnimeSchema);

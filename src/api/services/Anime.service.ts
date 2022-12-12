@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { serializeValidationResult } from "../../helpers";
+import { logger } from "../../middleware";
 
 import { Anime } from "../db/models";
 
 class AnimeService {
+  static async index(_: Request, res: Response) {
+    return res.json({ message: "Welcome to the anime API" });
+  }
   static async animes(req: Request, res: Response) {
-    const animes = await Anime.find();
+    const animes = await Anime.find({ deleted: false });
     return res.status(200).json(animes);
   }
   static async create(req: Request, res: Response) {

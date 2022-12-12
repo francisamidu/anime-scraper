@@ -17,19 +17,19 @@ const seed = async () => {
         });
         await newAnime.save();
       })
-    );
+    ).finally(async () => {
+      await disconnect();
+    });
     logger("Info", {
       name: "Seeder",
       message: "seeded anime data",
     });
-    disconnect();
-    process.exit(0);
   } catch (error: any) {
     logger("Error", {
       name: "Seeder",
       message: `Seed failed:${error.message}`,
     });
-    disconnect();
+    await disconnect();
   }
 };
 

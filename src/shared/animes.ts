@@ -21,4 +21,6 @@ export default [
   "SONO BISQUE DOLL WA KOI WO SURU",
   "Spy X Family",
   "World Trigger",
+  "Our last crusade",
+  "Kimisen boku",
 ];
