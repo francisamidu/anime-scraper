@@ -1,12 +1,12 @@
-import getContent from "./getContent";
-import getFile from "./getFile";
-import getHTML from "./getHtml";
-import getLinks from "./getLinks";
-import queryHTML from "./queryHTML";
-import removeDuplicates from "./removeDuplicates";
-import sendEmail from "./sendEmail";
-import serializeValidationResult from "./serializeValidationResult";
-import writeToFile from "./writeToFile";
+import getContent from "./get-content";
+import getFile from "./get-file";
+import getHTML from "./get-html";
+import getLinks from "./get-links";
+import queryHTML from "./query-html";
+import removeDuplicates from "./remove-duplicates";
+import sendEmail from "./send-email";
+import serializeValidationResult from "./serialize-validation-result";
+import writeToFile from "./write-to-file";
 
 export {
   getContent,

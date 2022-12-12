@@ -20,7 +20,7 @@ const AnimeSchema = new Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true, strictQuery: false }
 );
 
 export default model("animes", AnimeSchema);

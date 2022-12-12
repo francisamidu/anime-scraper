@@ -28,6 +28,7 @@ app.use(cors());
 const initApp = async () => {
   try {
     const data = await queryHTML();
+    console.log(data);
   } catch (err: any) {
     const error = new Error(err);
     logger("error", error);
@@ -38,7 +39,7 @@ app.use("/api", api);
 
 connect(`${MONGOB_URL}`)
   .then(() => {
-    // initApp();
+    initApp();
     app.listen(PORT, () => {
       logger("Info", {
         name: "Info",
