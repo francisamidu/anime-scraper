@@ -1,7 +1,7 @@
 export default [
-  // "https://gogoanime.news/news.html",
-  // "https://gogoanime.news/recent-release-anime",
-  // "https://gogoanime.news/news/reviews",
+  "https://gogoanime.news/news.html",
+  "https://gogoanime.news/recent-release-anime",
+  "https://gogoanime.news/news/reviews",
   // "https://crunchyroll.com/news",
   "https://honeysanime.com/display/around-the-hive/",
   "https://appnee.com/category/wallpaper/",

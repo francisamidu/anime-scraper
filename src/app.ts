@@ -3,7 +3,7 @@ import cors from "cors";
 import { config } from "dotenv";
 import { join } from "path";
 import logger from "./middleware/rootLogger";
-import { queryHTML } from "./helpers";
+import { getDaysInMonth, queryHTML, scheduleTask } from "./helpers";
 import { api } from "./api/routes";
 import { connect } from "mongoose";
 
@@ -27,8 +27,12 @@ app.use(cors());
 
 const initApp = async () => {
   try {
-    const data = await queryHTML();
-    console.log(data);
+    // const data = await queryHTML();
+    // console.log(data);
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth();
+    const days = getDaysInMonth(year, month);
+    scheduleTask("* * * * * *", () => console.log(days));
   } catch (err: any) {
     const error = new Error(err);
     logger("error", error);
