@@ -13,8 +13,6 @@ export default [
   "HATARAKU MAOU-SAMA!",
   "Way of the Househusband",
   "KONO SUBARASHI",
-  "The day i became a god",
-  "Kamisama ni Natta Hi",
   "Trapped in a dating sim",
   "Otome Game Sekai wa Mob ni Kibishii Sekai desu",
   "My dress up darling",
@@ -23,4 +21,7 @@ export default [
   "World Trigger",
   "Our last crusade",
   "Kimisen boku",
+  "Busou Shoujo Machiavellianism",
+  "ReLife",
+  "Kage no Jitsuryokusha ni Naritakute!"
 ];
