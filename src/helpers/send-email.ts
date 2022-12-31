@@ -5,14 +5,14 @@ export default (content: string) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "francisamidu124@gmail.com",
-      pass: "starboy124",
+      user: process.env.FROM_EMAIL,
+      pass: process.env.FROM_PASSWORD,
     },
   });
 
   const mailOptions = {
-    from: "francisamidu124@gmail.com",
-    to: "famidu3@gmail.com",
+    from: process.env.FROM_EMAIL,
+    to: process.env.TO_EMAIL,
     subject: "Anime updates",
     text: content,
   };
