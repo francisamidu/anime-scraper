@@ -44,19 +44,22 @@ const Header = () => {
             {shared.name}
           </h1>
           <h2 className="my-3 text-blue-gray-600">{shared.description}</h2>
-          <form>
+          <form className="my-2">
             <div className="flex flex-row items-center mb-2">
               <input
                 placeholder="Enter your email address"
-                className="w-3/5 p-2 rounded-lg border-blue-gray-50 border-[1px] mr-2"
+                className="w-3/5 p-2 rounded-lg border-blue-gray-50 border-[1px] mr-2 outline-none px-3"
               />
               <Button color="green" className="!w-max !bg-midnight-500">
                 Subscribe Now
               </Button>
             </div>
-            <span className="text-midnight-500">
-              You have subscribed! Check your email for the confirmation
+            <span className="text-blue-gray-600">
+              Get weekly updates in your inbox. Don't worry we don't spam!!
             </span>
+            {/* <span className="text-midnight-500">
+              You have subscribed! Check your email for the confirmation
+            </span> */}
           </form>
         </div>
       </div>
