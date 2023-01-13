@@ -15,6 +15,3 @@ An animescraper that keeps track of favorite animes and sends notification
 - Material Tailwind [https://material-tailwind.com](https://material-tailwind.com)
 
 ## APIs used
-
-- Ipdata [https://ipdata.co](https://ipdata.co)
-- Openweather [https://openweathermap.org/api](https://openweathermap.org/api)
