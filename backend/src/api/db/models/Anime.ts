@@ -1,5 +1,6 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 
+mongoose.set("strictQuery", false);
 const AnimeSchema = new Schema(
   {
     title: {
@@ -20,7 +21,7 @@ const AnimeSchema = new Schema(
       default: false,
     },
   },
-  { timestamps: true, strictQuery: false }
+  { timestamps: true }
 );
 
 export default model("animes", AnimeSchema);
