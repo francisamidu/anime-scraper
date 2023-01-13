@@ -46,7 +46,7 @@ const Header = () => {
           <h2 className="my-3 text-blue-gray-600 md:text-left text-center">
             {shared.description}
           </h2>
-          <form className="my-2">
+          <form className="my-4">
             <div className="flex flex-col md:flex-row items-center mb-2">
               <input
                 placeholder="Enter your email address"
