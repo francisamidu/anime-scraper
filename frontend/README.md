@@ -1,17 +1,11 @@
-This is a firebase-powered todo app that works
+An animescraper that keeps track of favorite animes and sends notification
 
-## Firelist [https://firelist.netlify.app](https://firelist.netlify.app)
+## AnimeScraper [https://anime-scraper.netlify.app](https://anime-scraper.netlify.app)
 
 ## Features
 
-- Login/Signup with email & password
-- Creating a Todo
-- Editing a Todo
-- Deleting a Todo
-- Completing a Todo
-- ~~Searching, Sorting and Filtering~~
-- ~~Resetting password~~
-- ~~Creating a Profile~~
+- Gets latest animes and anime news [https://gogoanime.tel](https://gogoanime.tel)
+- Send email notification
 
 ## Technologies used
 
@@ -19,7 +13,6 @@ This is a firebase-powered todo app that works
 - Next.js [https://nextjs.org](https://nextjs.org)
 - TailwindCss [https://tailwindcss.com](https://tailwindcss.com)
 - Material Tailwind [https://material-tailwind.com](https://material-tailwind.com)
-- Firebase [https://firebase.google.com](https://firebase.google.com)
 
 ## APIs used
 
