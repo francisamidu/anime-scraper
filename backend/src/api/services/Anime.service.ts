@@ -1,16 +1,24 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { serializeValidationResult } from "../../helpers";
-
+import { filterAnimes, serializeValidationResult } from "../../helpers";
+import { Anime as IAnime } from "../../types";
 import { Anime } from "../db/models";
+import animes from "../../shared/animes";
 
 class AnimeService {
   static async index(_: Request, res: Response) {
     return res.status(200).json({ message: "Welcome to the anime API" });
   }
-  static async animes(req: Request, res: Response) {
-    const animes = await Anime.find({ deleted: false });
-    return res.status(200).json(animes);
+  static async animes(_: Request, res: Response) {
+    let animeList = [];
+    for (let index = 0; index < animes.length; index++) {
+      const animeRes = await Anime.findOne({
+        title: new RegExp("^" + animes[index], "i"),
+      });
+      animeList[index] = animeRes;
+    }
+    animeList = animeList.filter((anime) => !!anime);
+    return res.status(200).json(animeList);
   }
   static async create(req: Request, res: Response) {
     const { link, image, title } = req.body;

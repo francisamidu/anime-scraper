@@ -1,4 +1,5 @@
 export default [
+  "Way of the Househusband",
   "One Punch Man",
   "Wanpanman",
   "Mushoku Tensei",
@@ -23,5 +24,5 @@ export default [
   "Kimisen boku",
   "Busou Shoujo Machiavellianism",
   "ReLife",
-  "Kage no Jitsuryokusha ni Naritakute!"
+  "Kage no Jitsuryokusha ni Naritakute!",
 ];
