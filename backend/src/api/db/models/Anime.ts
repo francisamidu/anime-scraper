@@ -1,6 +1,6 @@
-import mongoose, { model, Schema } from "mongoose";
+import { model, set, Schema } from "mongoose";
 
-mongoose.set("strictQuery", false);
+set("strictQuery", false);
 const AnimeSchema = new Schema(
   {
     title: {
@@ -24,4 +24,4 @@ const AnimeSchema = new Schema(
   { timestamps: true }
 );
 
-export default model("animes", AnimeSchema);
+export default model("anime", AnimeSchema);

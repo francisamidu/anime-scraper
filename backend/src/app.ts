@@ -5,7 +5,7 @@ import { join } from "path";
 import logger from "./middleware/rootLogger";
 import { getDaysInMonth, scheduleTask } from "./helpers";
 import { api } from "./api/routes";
-import { createConnection } from "mongoose";
+import { connect } from "mongoose";
 
 //Env config
 config({
@@ -20,34 +20,24 @@ const PORT = Number(process.env.PORT) || 5000;
 const MONGOB_URL =
   app.get("env") === "production"
     ? process.env.MONGODB_URL
-    : "mongodb://localhost:27017/?readPreference=primary&directConnection=true&ssl=false";
+    : "mongodb://127.0.0.1:27017/anime-scraper?readPreference=primary&directConnection=true";
 
 //cors middleware config
 app.use(cors());
 
-const initApp = async () => {
-  try {
-    // const data = await queryHTML();
-    // console.log(data);
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth();
-    const days = getDaysInMonth(year, month);
-    scheduleTask("2 * * * * *", () => console.log(days));
-  } catch (err: any) {
-    const error = new Error(err);
-    logger("error", error);
-  }
-};
-
 app.use("/api", api);
-
-createConnection(`${MONGOB_URL}`, { dbName: "anime-scraper" }, (err) => {
-  if (err) console.log(err);
-  initApp();
-  app.listen(PORT, () => {
-    logger("Info", {
-      name: "Info",
-      message: `Server app runnning on port: ${PORT}`,
+connect(`${MONGOB_URL}`)
+  .then(() => {
+    app.listen(PORT, () => {
+      logger("Info", {
+        name: "Info",
+        message: `Server app runnning on port: ${PORT}`,
+      });
+    });
+  })
+  .catch((error) => {
+    logger("Error", {
+      name: "Error",
+      message: `Connection error: ${error.message}`,
     });
   });
-});

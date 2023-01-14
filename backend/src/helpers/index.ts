@@ -1,3 +1,4 @@
+import filterAnimes from "./filter-animes";
 import getContent from "./get-content";
 import getDaysInMonth from "./get-days-in-month";
 import getFile from "./get-file";
@@ -11,6 +12,7 @@ import serializeValidationResult from "./serialize-validation-result";
 import writeToFile from "./write-to-file";
 
 export {
+  filterAnimes,
   getDaysInMonth,
   getContent,
   getFile,
