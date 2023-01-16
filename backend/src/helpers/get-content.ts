@@ -1,29 +1,36 @@
 import { JSDOM } from "jsdom";
 import sites from "../shared/sites";
 import { removeDuplicates, removeUndefined } from ".";
+import { AnimeLite } from "../types";
 
 export default (dom: JSDOM, name: string) => {
   switch (name) {
     case "animesuge": {
+      let scraped: AnimeLite[] = [];
       const site = sites.find((site) => site.includes(name)) || "";
-      const ulContent = dom.window.document.querySelectorAll(".content li");
-      const content = [...ulContent];
-      const elements = content.map((element: Element) => {
-        const links = [...element.querySelectorAll(".poster")];
-        return links.map((link) => {
-          const info = link.querySelector(".info");
-          const href = link?.getAttribute("href");
-          const image =
-            link.querySelector(".lazyload")?.getAttribute("data-src") || "";
-          const title = info?.querySelector("a")?.textContent || "";
-          return {
-            link: `${site}${href}`,
-            image,
-            title,
-          };
-        });
+      const content = [...dom.window.document.querySelectorAll(".content")];
+      content.forEach((c) => {
+        const els = c.querySelectorAll("li");
+        const elements = [...els]
+          .map((element: Element) => {
+            const info = element.querySelector(".info");
+            const href =
+              element.firstElementChild?.getAttribute("href") ||
+              element.querySelector(".poster")?.getAttribute("href");
+            const image: any =
+              element.querySelector(".lazyload")?.getAttribute("data-src") ||
+              element.querySelector("img")?.getAttribute("src");
+            const title = info?.querySelector("a")?.textContent || "";
+            return {
+              link: `${site}${href}`,
+              image,
+              title,
+            };
+          })
+          .flat(1);
+        scraped = [...scraped, ...elements];
       });
-      return removeUndefined(elements.flat(1));
+      return removeDuplicates(scraped);
     }
     case "animixplay": {
     }
