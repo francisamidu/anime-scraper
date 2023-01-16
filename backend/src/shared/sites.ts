@@ -2,7 +2,10 @@ export default [
   "https://gogoanime.news/news.html",
   "https://gogoanime.news/recent-release-anime",
   "https://gogoanime.news/news/reviews",
-  // "https://animesuge.to",
+  // "https://gogoanime.news/news/trailers",
+  // "https://gogoanime.news/upcoming-anime/tv-series",
+  // "https://gogoanime.news/requested-list.html"
+  "https://animesuge.to",
   // "https://gogohd.pro"
   // "https://wwwx09.gofcdn.com"
   // "https://honeysanime.com/display/around-the-hive/",

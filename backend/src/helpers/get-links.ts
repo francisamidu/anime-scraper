@@ -42,6 +42,15 @@ const getLinks = (dom: JSDOM, site: string): string[] => {
       ].map((el) => (typeof el === "number" ? `${site}page/${el}` : el));
       return range;
     }
+    case "https://animesuge.to": {
+      let linkDom = dom.window.document.querySelectorAll(".anime_list a");
+    }
+    case "https://gogoanime.news/requested-list.html": {
+    }
+    case "https://gogoanime.news/upcoming-anime/tv-series": {
+    }
+    case "https://gogoanime.news/requested-list.html": {
+    }
     default: {
       let linkDom = dom.window.document.querySelectorAll(".anime_list a");
       let links = [...linkDom]

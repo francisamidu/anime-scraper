@@ -60,7 +60,6 @@ const sendEmail = async (text: string, subject: string) => {
     const message = getErrorMessage(error);
     logger("error", {
       name: "error",
-      information: error,
       message,
     });
   }

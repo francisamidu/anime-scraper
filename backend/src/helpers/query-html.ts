@@ -1,7 +1,7 @@
 import sites from "../shared/sites";
 import { JSDOM } from "jsdom";
 import logger from "../middleware/rootLogger";
-import { getContent, getHTML, getLinks } from ".";
+import { getContent, getFile, getHTML, getLinks } from ".";
 
 const queryHTML = async () => {
   try {
@@ -11,29 +11,32 @@ const queryHTML = async () => {
       name: "Info",
       information: "Anime-Scraper",
     });
-    for (let site of sites) {
-      let html = await getHTML(site);
-      let dom = new JSDOM(html);
-      let links = getLinks(dom, site);
-      switch (site) {
-        case "https://appnee.com/category/wallpaper/": {
-          return links;
-        }
-        default: {
-          for (let link of links) {
-            let file = await getHTML(link);
-            let dom = new JSDOM(file);
-            let content = getContent(dom, link);
-            scraped = [scraped, content].flat(Infinity);
-            logger("info", {
-              message: `Scraped ${link}`,
-              name: "Info",
-              information: site,
-            });
-          }
-        }
-      }
-    }
+    // for (let site of sites) {
+    //   let html = await getHTML(site);
+    //   let dom = new JSDOM(html);
+    //   let links = getLinks(dom, site);
+    //   switch (site) {
+    //     case "https://appnee.com/category/wallpaper/": {
+    //       return links;
+    //     }
+    //     default: {
+    //       for (let link of links) {
+    //         let file = await getHTML(link);
+    //         let dom = new JSDOM(file);
+    //         let content = getContent(dom, link);
+    //         scraped = [scraped, content].flat(Infinity);
+    //         logger("info", {
+    //           message: `Scraped ${link}`,
+    //           name: "Info",
+    //           information: site,
+    //         });
+    //       }
+    //     }
+    //   }
+    // }
+    const file = await getFile("animesuge.html");
+    let dom = new JSDOM(file);
+    scraped = getContent(dom, "animesuge");
     return scraped;
   } catch (error) {
     throw error;

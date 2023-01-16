@@ -19,7 +19,7 @@ import { connect } from "mongoose";
 const app = express();
 
 //Constants
-const PORT = Number(process.env.PORT) || 0;
+const PORT = Number(process.env.PORT) || 8081;
 const MONGOB_URL =
   app.get("env") === "production"
     ? process.env.MONGODB_URL
@@ -38,18 +38,14 @@ connect(`${MONGOB_URL}`)
           message: `Server app runnning on port: ${PORT}`,
         });
       });
-      const data = await queryHTML();
-      sendEmail(
-        String(data.length),
-        `Anime updates for you week #${getWeek()}`
-      );
+      // sendEmail(
+      //   String(data.length),
+      //   `Anime updates for you week #${getWeek()}`
+      // );
     } catch (error) {
       console.log(getErrorMessage(error));
     }
   })
   .catch((error) => {
-    logger("Error", {
-      name: "Error",
-      message: `Connection error: ${error.message}`,
-    });
+    console.log(getErrorMessage(error));
   });
