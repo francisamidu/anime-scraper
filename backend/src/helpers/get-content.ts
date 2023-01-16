@@ -80,6 +80,26 @@ export default (dom: JSDOM, name: string) => {
       return scraped;
     }
     case "trailers": {
+      let scraped: AnimeLite[] = [];
+      const site = sites.find((site) => site.includes(name)) || "";
+      const mainBody = dom.window.document.querySelector(".main_body");
+      const itemsList = mainBody?.querySelector(".items-news");
+      const liElements = itemsList?.querySelectorAll("li");
+      liElements?.forEach((li) => {
+        const image = li.querySelector("img")?.getAttribute("src");
+        const el = li.querySelector(".title")?.firstElementChild;
+        const title = el?.getAttribute("title");
+        const link = el?.getAttribute("href");
+        scraped = [
+          ...scraped,
+          {
+            link: `${site}${link}`,
+            image: `${image}`,
+            title: `${title}`,
+          },
+        ];
+      });
+      return scraped;
     }
     case "upcoming": {
     }
