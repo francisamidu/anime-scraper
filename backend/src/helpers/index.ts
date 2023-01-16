@@ -1,9 +1,11 @@
 import filterAnimes from "./filter-animes";
 import getContent from "./get-content";
 import getDaysInMonth from "./get-days-in-month";
+import getErrorMessage from "./get-error-message";
 import getFile from "./get-file";
 import getHTML from "./get-html";
 import getLinks from "./get-links";
+import { getWeek, getWeekYear } from "./get-week";
 import queryHTML from "./query-html";
 import removeDuplicates from "./remove-duplicates";
 import scheduleTask from "./schedule-task";
@@ -15,9 +17,12 @@ export {
   filterAnimes,
   getDaysInMonth,
   getContent,
+  getErrorMessage,
   getFile,
   getHTML,
   getLinks,
+  getWeek,
+  getWeekYear,
   removeDuplicates,
   queryHTML,
   scheduleTask,

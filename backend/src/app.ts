@@ -1,23 +1,25 @@
 import express from "express";
 import cors from "cors";
-import { config } from "dotenv";
-import { join } from "path";
+
 import logger from "./middleware/rootLogger";
-import { getDaysInMonth, queryHTML, scheduleTask, sendEmail } from "./helpers";
+import {
+  getErrorMessage,
+  getWeek,
+  getWeekYear,
+  queryHTML,
+  scheduleTask,
+  sendEmail,
+} from "./helpers";
 import { api } from "./api/routes";
 import { connect } from "mongoose";
-import { resolve } from "path";
 
 //Env config
-const PATH = resolve(__dirname, "../.env");
-config({ path: PATH });
-console.log(PATH);
 
 //Init server app
 const app = express();
 
 //Constants
-const PORT = Number(process.env.PORT) || 5000;
+const PORT = Number(process.env.PORT) || 0;
 const MONGOB_URL =
   app.get("env") === "production"
     ? process.env.MONGODB_URL
@@ -37,9 +39,12 @@ connect(`${MONGOB_URL}`)
         });
       });
       const data = await queryHTML();
-      sendEmail(String(data.length));
+      sendEmail(
+        String(data.length),
+        `Anime updates for you week #${getWeek()}`
+      );
     } catch (error) {
-      console.log(error);
+      console.log(getErrorMessage(error));
     }
   })
   .catch((error) => {

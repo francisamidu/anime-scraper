@@ -2,20 +2,20 @@ const ck = require("ckey");
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
 import logger from "../middleware/rootLogger";
+import { getErrorMessage } from ".";
 
 const {
-  GMAIL_ACCESS_TOKEN,
   GMAIL_REFRESH_TOKEN,
   GOOGLE_CLIENT_ID,
   GMAIL_OAUTH_URL,
   GOOGLE_CLIENT_SECRET,
   FROM_EMAIL,
-  FROM_PASSWORD,
   TO_EMAIL,
 } = ck;
 const OAuth2 = google.auth.OAuth2;
 
 const createTransporter = async () => {
+  let ACCESS_TOKEN = "";
   const oauth2Client = new OAuth2(
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
@@ -26,31 +26,44 @@ const createTransporter = async () => {
     refresh_token: GMAIL_REFRESH_TOKEN,
   });
 
-  const accessToken = await new Promise((resolve, reject) => {
-    oauth2Client.getAccessToken((err, token) => {
-      if (err) {
-        reject("Failed to create access token :(");
-      }
-      resolve(token);
-    });
+  oauth2Client.on("tokens", (tokens) => {
+    if (tokens.refresh_token) {
+      ACCESS_TOKEN = tokens.access_token || "";
+    }
   });
 
   const transporter = nodemailer.createTransport({
-    service: "gmail",
     auth: {
+      accessToken: ACCESS_TOKEN,
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      refreshToken: GMAIL_REFRESH_TOKEN,
       type: "OAuth2",
-      user: process.env.EMAIL,
-      accessToken,
-      clientId: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      refreshToken: process.env.REFRESH_TOKEN,
+      user: FROM_EMAIL,
     },
+    service: "gmail",
   });
 
   return transporter;
 };
 
-const sendEmail = async (emailOptions) => {
+const sendEmail = async (text: string, subject: string) => {
   let emailTransporter = await createTransporter();
-  await emailTransporter.sendMail(emailOptions);
+  try {
+    await emailTransporter.sendMail({
+      from: FROM_EMAIL,
+      to: TO_EMAIL,
+      subject,
+      text,
+    });
+  } catch (error) {
+    const message = getErrorMessage(error);
+    logger("error", {
+      name: "error",
+      information: error,
+      message,
+    });
+  }
 };
+
+export default sendEmail;
