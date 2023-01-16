@@ -36,7 +36,7 @@ const queryHTML = async () => {
     // }
     const file = await getFile("gogoanime-requested.html");
     let dom = new JSDOM(file);
-    const content = getContent(dom, "gogoanime-requested");
+    const content = getContent(dom, "requested-list");
     return content;
   } catch (error) {
     throw error;

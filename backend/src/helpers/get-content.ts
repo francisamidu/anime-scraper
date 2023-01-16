@@ -58,7 +58,7 @@ export default (dom: JSDOM, name: string) => {
       });
       return scraped;
     }
-    case "gogoanime-requested": {
+    case "requested-list": {
       let scraped: AnimeLite[] = [];
       const site = sites.find((site) => site.includes(name)) || "";
       const mainBody = dom.window.document.querySelector(".main_body");
@@ -79,9 +79,9 @@ export default (dom: JSDOM, name: string) => {
       });
       return scraped;
     }
-    case "gogoanime-trailers": {
+    case "trailers": {
     }
-    case "gogoanime-upcoming": {
+    case "upcoming": {
     }
     default: {
       let pageContent = dom.window.document.querySelectorAll(
