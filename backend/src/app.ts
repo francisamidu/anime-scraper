@@ -3,14 +3,15 @@ import cors from "cors";
 import { config } from "dotenv";
 import { join } from "path";
 import logger from "./middleware/rootLogger";
-import { getDaysInMonth, scheduleTask } from "./helpers";
+import { getDaysInMonth, queryHTML, scheduleTask, sendEmail } from "./helpers";
 import { api } from "./api/routes";
 import { connect } from "mongoose";
+import { resolve } from "path";
 
 //Env config
-config({
-  path: join(__dirname, "..", "config"),
-});
+const PATH = resolve(__dirname, "../.env");
+config({ path: PATH });
+console.log(PATH);
 
 //Init server app
 const app = express();
@@ -27,13 +28,19 @@ app.use(cors());
 
 app.use("/api", api);
 connect(`${MONGOB_URL}`)
-  .then(() => {
-    app.listen(PORT, () => {
-      logger("Info", {
-        name: "Info",
-        message: `Server app runnning on port: ${PORT}`,
+  .then(async () => {
+    try {
+      app.listen(PORT, () => {
+        logger("Info", {
+          name: "Info",
+          message: `Server app runnning on port: ${PORT}`,
+        });
       });
-    });
+      const data = await queryHTML();
+      sendEmail(String(data.length));
+    } catch (error) {
+      console.log(error);
+    }
   })
   .catch((error) => {
     logger("Error", {
