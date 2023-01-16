@@ -34,9 +34,9 @@ const queryHTML = async () => {
     //     }
     //   }
     // }
-    const file = await getFile("gogoanime-trailers.html");
+    const file = await getFile("gogoanime-upcoming-animes.html");
     let dom = new JSDOM(file);
-    const content = getContent(dom, "trailers");
+    const content = getContent(dom, "upcoming");
     return content;
   } catch (error) {
     throw error;
