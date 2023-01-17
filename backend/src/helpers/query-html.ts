@@ -34,10 +34,10 @@ const queryHTML = async () => {
     //     }
     //   }
     // }
-    const file = await getFile("animesuge.html");
+    const file = await getFile("animixplaytube.html");
     let dom = new JSDOM(file);
-    scraped = getContent(dom, "animesuge");
-    return scraped;
+    const content = getContent(dom, "animixplay");
+    return content;
   } catch (error) {
     throw error;
   }

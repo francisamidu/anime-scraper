@@ -33,6 +33,16 @@ export default (dom: JSDOM, name: string) => {
       return removeDuplicates(scraped);
     }
     case "animixplay": {
+      // metro booming - heroes and villains
+      // Khalid - satellite mp3
+      // Odumublack - picanto mp3
+      // Young filly - day to day mp3
+      // Savage - confident mp3
+      let scraped: AnimeLite[] = [];
+      const site = sites.find((site) => site.includes(name)) || "";
+      const content = dom.window.document.querySelector("#resultload");
+      console.log(content);
+      return [content];
     }
     case "gogoanime-trailers": {
     }
