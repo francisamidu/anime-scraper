@@ -34,9 +34,9 @@ const queryHTML = async () => {
     //     }
     //   }
     // }
-    const file = await getFile("animixplaytube.html");
+    const file = await getFile("gogoanime-requested.html");
     let dom = new JSDOM(file);
-    const content = getContent(dom, "animixplay");
+    const content = getContent(dom, "gogoanime-requested");
     return content;
   } catch (error) {
     throw error;

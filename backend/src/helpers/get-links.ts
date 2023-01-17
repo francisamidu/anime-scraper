@@ -1,7 +1,7 @@
 import { JSDOM } from "jsdom";
 const getLinks = (dom: JSDOM, site: string): string[] => {
   switch (site) {
-    case "https://appnee.com/category/wallpaper/": {
+    case "appnee.com/category/wallpaper/": {
       let linkDom = dom.window.document.querySelectorAll(".entry-title a");
       const temp = [...linkDom];
       const appnee = [
@@ -25,7 +25,7 @@ const getLinks = (dom: JSDOM, site: string): string[] => {
         .map((el) => `${el?.getAttribute("href")}`);
       return appneeLink;
     }
-    case "https://honeysanime.com/display/around-the-hive/": {
+    case "honeysanime.com/display/around-the-hive/": {
       const filters = ["First", "Prev.", "Next"];
       let linkDom = dom.window.document.querySelectorAll(".ha-pagination li a");
       let honeysLinks = [...linkDom]
@@ -42,14 +42,14 @@ const getLinks = (dom: JSDOM, site: string): string[] => {
       ].map((el) => (typeof el === "number" ? `${site}page/${el}` : el));
       return range;
     }
-    case "https://animesuge.to": {
+    case "animesuge.to": {
       let linkDom = dom.window.document.querySelectorAll(".anime_list a");
     }
-    case "https://gogoanime.news/requested-list.html": {
+    case "gogoanime.news/trailers": {
     }
-    case "https://gogoanime.news/upcoming-anime/tv-series": {
+    case "gogoanime.news/upcoming-anime/tv-series": {
     }
-    case "https://gogoanime.news/requested-list.html": {
+    case "gogoanime.news/requested-list": {
     }
     default: {
       let linkDom = dom.window.document.querySelectorAll(".anime_list a");
