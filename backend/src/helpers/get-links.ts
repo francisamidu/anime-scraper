@@ -1,60 +1,36 @@
 import { JSDOM } from "jsdom";
+import { sites } from "../shared";
+const getGogoLinks = (dom: JSDOM) => {
+  let linkDom = dom.window.document.querySelectorAll(".pagination li");
+  const links = [...linkDom]
+    .map((link) => {
+      if (!link.classList.contains("selected")) {
+        return link?.querySelector("a")?.getAttribute("href") || "";
+      }
+      return "";
+    })
+    .filter((el) => !!el);
+  return links;
+};
 const getLinks = (dom: JSDOM, site: string): string[] => {
+  let siteLink = sites.find((s) => s.title === site)?.link || "";
   switch (site) {
-    case "appnee.com/category/wallpaper/": {
-      let linkDom = dom.window.document.querySelectorAll(".entry-title a");
-      const temp = [...linkDom];
-      const appnee = [
-        "Bing",
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sept",
-        "Oct",
-        "Nov",
-        "Dec",
-        "No Watermark",
-      ].map((el) => el.toLowerCase());
-      let appneeLink = temp
-        .filter((el) => el?.textContent?.toLowerCase()?.includes("bing"))
-        .map((el) => `${el?.getAttribute("href")}`);
-      return appneeLink;
-    }
-    case "honeysanime.com/display/around-the-hive/": {
-      const filters = ["First", "Prev.", "Next"];
-      let linkDom = dom.window.document.querySelectorAll(".ha-pagination li a");
-      let honeysLinks = [...linkDom]
-        .filter((el) => !filters.includes(String(el?.textContent)))
-        .map((el) => `${site}${el.getAttribute("href")}`)
-        .filter((el) => !!el);
-      const lastEl = honeysLinks.at(-1)?.split("/").at(-2);
-      const range = [
-        site,
-        ...Array(Number(lastEl))
-          .fill(1)
-          .map((_, i) => i)
-          .splice(2, Array(Number(lastEl)).length - 2),
-      ].map((el) => (typeof el === "number" ? `${site}page/${el}` : el));
-      return range;
-    }
     case "animesuge.to": {
       let linkDom = dom.window.document.querySelectorAll(".anime_list a");
     }
-    case "gogoanime.news/trailers": {
+    case "trailers": {
+      return getGogoLinks(dom);
     }
-    case "gogoanime.news/upcoming-anime/tv-series": {
+    case "upcoming": {
+      return getGogoLinks(dom);
     }
-    case "gogoanime.news/requested-list": {
+    case "requested-list": {
+      return getGogoLinks(dom);
     }
     default: {
       let linkDom = dom.window.document.querySelectorAll(".anime_list a");
       let links = [...linkDom]
-        .map((el) => `${site}${el.getAttribute("href")}`)
+        .map((el) => `${siteLink}${el.getAttribute("href")}`)
         .filter((el) => !!el);
       return links;
     }

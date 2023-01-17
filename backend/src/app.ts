@@ -32,12 +32,22 @@ app.use("/api", api);
 connect(`${MONGOB_URL}`)
   .then(async () => {
     try {
-      app.listen(PORT, () => {
-        logger("Info", {
-          name: "Info",
-          message: `Server app runnning on port: ${PORT}`,
+      app
+        .listen(PORT, () => {
+          logger("Info", {
+            name: "Info",
+            message: `Server app runnning on port: ${PORT}`,
+          });
+        }) //   Fix the Error EADDRINUSE
+        .on("error", () => {
+          process.once("SIGUSR2", () => {
+            process.kill(process.pid, "SIGUSR2");
+          });
+          process.on("SIGINT", () => {
+            // this is only called on ctrl+c, not restart
+            process.kill(process.pid, "SIGINT");
+          });
         });
-      });
       // sendEmail(
       //   String(data.length),
       //   `Anime updates for you week #${getWeek()}`

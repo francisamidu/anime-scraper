@@ -60,7 +60,8 @@ export default (dom: JSDOM, name: string) => {
     }
     case "requested-list": {
       let scraped: AnimeLite[] = [];
-      const site = sites.find((site) => site.link.includes(name))?.link || "";
+      let site = sites.find((site) => site.link.includes(name))?.link || "";
+      site = site.replace("/requested-list", "");
       const mainBody = dom.window.document.querySelector(".main_body");
       const itemsList = mainBody?.querySelector(".items-request");
       const liElements = itemsList?.querySelectorAll("li");
@@ -87,7 +88,8 @@ export default (dom: JSDOM, name: string) => {
     }
     case "trailers": {
       let scraped: AnimeLite[] = [];
-      const site = sites.find((site) => site.link.includes(name))?.link || "";
+      let site = sites.find((site) => site.link.includes(name))?.link || "";
+      site = site.replace("/trailers", "");
       const mainBody = dom.window.document.querySelector(".main_body");
       const itemsList = mainBody?.querySelector(".items-news");
       const liElements = itemsList?.querySelectorAll("li");
@@ -113,7 +115,8 @@ export default (dom: JSDOM, name: string) => {
     }
     case "upcoming": {
       let scraped: AnimeLite[] = [];
-      const site = sites.find((site) => site.link.includes(name))?.link || "";
+      let site = sites.find((site) => site.link.includes(name))?.link || "";
+      site = site.replace("/upcoming-anime/tv-series", "");
       const mainBody = dom.window.document.querySelector(".main_body");
       const itemsList = mainBody?.querySelector(".items");
       const liElements = itemsList?.querySelectorAll("li");

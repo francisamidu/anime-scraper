@@ -1,8 +1,13 @@
 export default [
   {
+    title: "animesuge",
+    file: "animesuge.html",
+    link: "https://animesuge.to",
+  },
+  {
     title: "animixplay",
     file: "animixplaytube.html",
-    link: "https://animesuge.to",
+    link: "https://animixplay.tube",
   },
   {
     title: "news",

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import {
   filterAnimes,
+  getErrorMessage,
   queryHTML,
   serializeValidationResult,
 } from "../../helpers";
@@ -14,15 +15,20 @@ class AnimeService {
     return res.status(200).json({ message: "Welcome to the anime API" });
   }
   static async animes(_: Request, res: Response) {
-    let animeList = await queryHTML();
-    // for (let index = 0; index < animes.length; index++) {
-    //   const animeRes = await Anime.findOne({
-    //     title: new RegExp("^" + animes[index], "i"),
-    //   });
-    //   animeList[index] = animeRes;
-    // }
-    // animeList = animeList.filter((anime) => !!anime);
-    return res.status(200).json(animeList);
+    try {
+      let animeList = await queryHTML();
+      // for (let index = 0; index < animes.length; index++) {
+      //   const animeRes = await Anime.findOne({
+      //     title: new RegExp("^" + animes[index], "i"),
+      //   });
+      //   animeList[index] = animeRes;
+      // }
+      // animeList = animeList.filter((anime) => !!anime);
+      return res.status(200).json(animeList);
+    } catch (error) {
+      const err = getErrorMessage(error);
+      console.log(err);
+    }
   }
   static async create(req: Request, res: Response) {
     const { link, image, title } = req.body;

@@ -11,34 +11,31 @@ const queryHTML = async () => {
       name: "Info",
       information: "Anime-Scraper",
     });
-    // for (let site of sites) {
-    //   let html = await getHTML(site);
-    //   let dom = new JSDOM(html);
-    //   let links = getLinks(dom, site);
-    //   switch (site) {
-    //     case "https://appnee.com/category/wallpaper/": {
-    //       return links;
-    //     }
-    //     default: {
-    //       for (let link of links) {
-    //         let file = await getHTML(link);
-    //         let dom = new JSDOM(file);
-    //         let content = getContent(dom, link);
-    //         scraped = [scraped, content].flat(Infinity);
-    //         logger("info", {
-    //           message: `Scraped ${link}`,
-    //           name: "Info",
-    //           information: site,
-    //         });
-    //       }
-    //     }
-    //   }
-    // }
     for (let site of sites) {
-      const file = await getFile(site.file);
-      let dom = new JSDOM(file);
-      const content = getContent(dom, site.title);
-      scraped = [...scraped, ...content];
+      let html = await getHTML(site.link);
+      let dom = new JSDOM(html);
+      let links = getLinks(dom, site.title);
+      switch (site.link) {
+        case "https://animesuge.to/": {
+          return links;
+        }
+        case "https://animixplay.tube": {
+          return links;
+        }
+        default: {
+          for (let link of links) {
+            let file = await getHTML(link);
+            let dom = new JSDOM(file);
+            let content = getContent(dom, link);
+            scraped = [scraped, content].flat(Infinity);
+            logger("info", {
+              message: `Scraped ${link}`,
+              name: "Info",
+              information: site,
+            });
+          }
+        }
+      }
     }
     return scraped;
   } catch (error) {
