@@ -7,7 +7,7 @@ export default (dom: JSDOM, name: string) => {
   switch (name) {
     case "animesuge": {
       let scraped: AnimeLite[] = [];
-      const site = sites.find((site) => site.includes(name)) || "";
+      const site = sites.find((site) => site.link.includes(name))?.link || "";
       const content = [...dom.window.document.querySelectorAll(".content")];
       content.forEach((c) => {
         const els = c.querySelectorAll("li");
@@ -40,7 +40,7 @@ export default (dom: JSDOM, name: string) => {
       // Savage - confident mp3
       // master kg ft nkosizana daughter -
       let scraped: AnimeLite[] = [];
-      const site = sites.find((site) => site.includes(name)) || "";
+      const site = sites.find((site) => site.link.includes(name))?.link || "";
       const content = dom.window.document.querySelector("#resultload");
       const liElements = content?.querySelectorAll("li");
       liElements?.forEach((li) => {
@@ -60,20 +60,26 @@ export default (dom: JSDOM, name: string) => {
     }
     case "requested-list": {
       let scraped: AnimeLite[] = [];
-      const site = sites.find((site) => site.includes(name)) || "";
+      const site = sites.find((site) => site.link.includes(name))?.link || "";
       const mainBody = dom.window.document.querySelector(".main_body");
       const itemsList = mainBody?.querySelector(".items-request");
       const liElements = itemsList?.querySelectorAll("li");
       liElements?.forEach((li) => {
-        const image = li.querySelector("img")?.getAttribute("src");
-        const title = li.querySelector("a")?.getAttribute("title");
+        let image = li.querySelector("img")?.getAttribute("src");
+        if (!image?.includes("cdn")) {
+          image = li.querySelector("img")?.getAttribute("data-original");
+        }
+        let title = li.querySelector("a")?.getAttribute("title");
+        title =
+          title ||
+          li?.querySelector("a")?.textContent?.replace(/["']/g, "").trim();
         const link = li.querySelector("a")?.getAttribute("href");
         scraped = [
           ...scraped,
           {
             link: `${site}${link}`,
             image: `${image}`,
-            title: `${title}`,
+            title: `${title || li?.querySelector("a")?.textContent}`,
           },
         ];
       });
@@ -81,14 +87,18 @@ export default (dom: JSDOM, name: string) => {
     }
     case "trailers": {
       let scraped: AnimeLite[] = [];
-      const site = sites.find((site) => site.includes(name)) || "";
+      const site = sites.find((site) => site.link.includes(name))?.link || "";
       const mainBody = dom.window.document.querySelector(".main_body");
       const itemsList = mainBody?.querySelector(".items-news");
       const liElements = itemsList?.querySelectorAll("li");
       liElements?.forEach((li) => {
-        const image = li.querySelector("img")?.getAttribute("src");
+        let image = li.querySelector("img")?.getAttribute("src");
+        if (!image?.includes("cdn")) {
+          image = li.querySelector("img")?.getAttribute("data-original");
+        }
         const el = li.querySelector(".title")?.firstElementChild;
-        const title = el?.getAttribute("title");
+        let title = el?.getAttribute("title");
+        title = title || el?.textContent?.replace(/["']/g, "").trim();
         const link = el?.getAttribute("href");
         scraped = [
           ...scraped,
@@ -103,14 +113,18 @@ export default (dom: JSDOM, name: string) => {
     }
     case "upcoming": {
       let scraped: AnimeLite[] = [];
-      const site = sites.find((site) => site.includes(name)) || "";
+      const site = sites.find((site) => site.link.includes(name))?.link || "";
       const mainBody = dom.window.document.querySelector(".main_body");
       const itemsList = mainBody?.querySelector(".items");
       const liElements = itemsList?.querySelectorAll("li");
       liElements?.forEach((li) => {
-        const image = li.querySelector("img")?.getAttribute("src");
+        let image = li.querySelector("img")?.getAttribute("src");
+        if (!image?.includes("cdn")) {
+          image = li.querySelector("img")?.getAttribute("data-original");
+        }
         const el = li.querySelector(".name")?.firstElementChild;
-        const title = el?.getAttribute("title");
+        let title = el?.getAttribute("title");
+        title = title || el?.textContent?.replace(/["']/g, "").trim();
         const link = el?.getAttribute("href");
         scraped = [
           ...scraped,

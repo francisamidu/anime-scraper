@@ -34,10 +34,13 @@ const queryHTML = async () => {
     //     }
     //   }
     // }
-    const file = await getFile("gogoanime-upcoming-animes.html");
-    let dom = new JSDOM(file);
-    const content = getContent(dom, "upcoming");
-    return content;
+    for (let site of sites) {
+      const file = await getFile(site.file);
+      let dom = new JSDOM(file);
+      const content = getContent(dom, site.title);
+      scraped = [...scraped, ...content];
+    }
+    return scraped;
   } catch (error) {
     throw error;
   }

@@ -1,12 +1,31 @@
 export default [
-  "https://animesuge.to",
-  "https://animixplay.tube",
-  "https://gogoanime.news/news.html",
-  "https://gogoanime.news/recent-release-anime",
-  "https://gogoanime.news/news/reviews",
-  "https://gogoanime.news/news/trailers",
-  "https://gogoanime.news/upcoming-anime/tv-series",
-  "https://gogoanime.news/requested-list.html",
+  {
+    title: "animixplay",
+    file: "animixplaytube.html",
+    link: "https://animesuge.to",
+  },
+  {
+    title: "news",
+    file: "index.html",
+    link: "https://gogoanime.news/news.html",
+  },
+  {
+    title: "requested-list",
+    file: "gogoanime-requested.html",
+    link: "https://gogoanime.news/requested-list",
+  },
+  {
+    title: "trailers",
+    file: "gogoanime-trailers.html",
+    link: "https://gogoanime.news/news/trailers",
+  },
+  {
+    title: "upcoming",
+    file: "gogoanime-upcoming-animes.html",
+    link: "https://gogoanime.news/upcoming-anime/tv-series",
+  },
+  // "https://gogoanime.news/recent-release-anime",
+  // "https://gogoanime.news/news/reviews",
   // "https://gogohd.pro"
   // "https://wwwx09.gofcdn.com"
 ];
