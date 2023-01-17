@@ -38,11 +38,25 @@ export default (dom: JSDOM, name: string) => {
       // Odumublack - picanto mp3
       // Young filly - day to day mp3
       // Savage - confident mp3
+      // master kg ft nkosizana daughter -
       let scraped: AnimeLite[] = [];
       const site = sites.find((site) => site.includes(name)) || "";
       const content = dom.window.document.querySelector("#resultload");
-      console.log(content);
-      return [content];
+      const liElements = content?.querySelectorAll("li");
+      liElements?.forEach((li) => {
+        const link = li.firstElementChild?.getAttribute("href");
+        const text = li.querySelector(".name")?.textContent;
+        const image = li.querySelector("img")?.getAttribute("src");
+        scraped = [
+          ...scraped,
+          {
+            link: `${site}${link}`,
+            image: String(image),
+            title: String(text).trim(),
+          },
+        ];
+      });
+      return scraped;
     }
     case "gogoanime-trailers": {
     }
