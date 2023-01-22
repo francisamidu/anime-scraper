@@ -48,6 +48,8 @@ connect(`${MONGOB_URL}`)
             process.kill(process.pid, "SIGINT");
           });
         });
+      const animes = await queryHTML();
+      console.log(animes.length);
       // sendEmail(
       //   String(data.length),
       //   `Anime updates for you week #${getWeek()}`

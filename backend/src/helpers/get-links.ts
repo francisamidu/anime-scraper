@@ -1,11 +1,11 @@
 import { JSDOM } from "jsdom";
 import { sites } from "../shared";
-const getGogoLinks = (dom: JSDOM) => {
+const getGogoLinks = (dom: JSDOM, site: string) => {
   let linkDom = dom.window.document.querySelectorAll(".pagination li");
   const links = [...linkDom]
     .map((link) => {
       if (!link.classList.contains("selected")) {
-        return link?.querySelector("a")?.getAttribute("href") || "";
+        return `${site}${link?.querySelector("a")?.getAttribute("href") || ""}`;
       }
       return "";
     })
@@ -19,13 +19,13 @@ const getLinks = (dom: JSDOM, site: string): string[] => {
       let linkDom = dom.window.document.querySelectorAll(".anime_list a");
     }
     case "trailers": {
-      return getGogoLinks(dom);
+      return getGogoLinks(dom, siteLink);
     }
     case "upcoming": {
-      return getGogoLinks(dom);
+      return getGogoLinks(dom, siteLink);
     }
     case "requested-list": {
-      return getGogoLinks(dom);
+      return getGogoLinks(dom, siteLink);
     }
     default: {
       let linkDom = dom.window.document.querySelectorAll(".anime_list a");

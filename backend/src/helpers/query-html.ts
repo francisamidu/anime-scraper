@@ -1,7 +1,7 @@
 import sites from "../shared/sites";
 import { JSDOM } from "jsdom";
 import logger from "../middleware/rootLogger";
-import { getContent, getFile, getHTML, getLinks } from ".";
+import { getContent, getHTML, getLinks } from ".";
 
 const queryHTML = async () => {
   try {
@@ -15,26 +15,16 @@ const queryHTML = async () => {
       let html = await getHTML(site.link);
       let dom = new JSDOM(html);
       let links = getLinks(dom, site.title);
-      switch (site.link) {
-        case "https://animesuge.to/": {
-          return links;
-        }
-        case "https://animixplay.tube": {
-          return links;
-        }
-        default: {
-          for (let link of links) {
-            let file = await getHTML(link);
-            let dom = new JSDOM(file);
-            let content = getContent(dom, link);
-            scraped = [scraped, content].flat(Infinity);
-            logger("info", {
-              message: `Scraped ${link}`,
-              name: "Info",
-              information: site.title,
-            });
-          }
-        }
+      for (let link of links) {
+        let file = await getHTML(link);
+        let dom = new JSDOM(file);
+        let content = getContent(dom, link);
+        scraped = [scraped, content].flat(Infinity);
+        logger("info", {
+          message: `Scraped ${link}`,
+          name: "Info",
+          information: site.title,
+        });
       }
     }
     return scraped;

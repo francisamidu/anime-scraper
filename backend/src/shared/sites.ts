@@ -1,19 +1,19 @@
 export default [
-  {
-    title: "animesuge",
-    file: "animesuge.html",
-    link: "https://animesuge.to",
-  },
-  {
-    title: "animixplay",
-    file: "animixplaytube.html",
-    link: "https://animixplay.tube",
-  },
-  {
-    title: "news",
-    file: "index.html",
-    link: "https://gogoanime.news/news.html",
-  },
+  // {
+  //   title: "animesuge",
+  //   file: "animesuge.html",
+  //   link: "https://animesuge.to",
+  // },
+  // {
+  //   title: "animixplay",
+  //   file: "animixplaytube.html",
+  //   link: "https://animixplay.tube",
+  // },
+  // {
+  //   title: "news",
+  //   file: "index.html",
+  //   link: "https://gogoanime.news/news.html",
+  // },
   {
     title: "requested-list",
     file: "gogoanime-requested.html",
