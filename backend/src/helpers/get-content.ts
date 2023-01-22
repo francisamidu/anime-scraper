@@ -33,12 +33,6 @@ export default (dom: JSDOM, name: string) => {
       return removeDuplicates(scraped);
     }
     case "animixplay": {
-      // metro booming - heroes and villains
-      // Khalid - satellite mp3
-      // Odumublack - picanto mp3
-      // Young filly - day to day mp3
-      // Savage - confident mp3
-      // master kg ft nkosizana daughter -
       let scraped: AnimeLite[] = [];
       const site = sites.find((site) => site.link.includes(name))?.link || "";
       const content = dom.window.document.querySelector("#resultload");
