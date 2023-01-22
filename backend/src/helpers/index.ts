@@ -1,4 +1,5 @@
 import filterAnimes from "./filter-animes";
+import generateHTML from "./generate-html";
 import getContent from "./get-content";
 import getDaysInMonth from "./get-days-in-month";
 import getErrorMessage from "./get-error-message";
@@ -20,6 +21,7 @@ export {
   getContent,
   getErrorMessage,
   getFile,
+  generateHTML,
   getHTML,
   getLinks,
   getWeek,

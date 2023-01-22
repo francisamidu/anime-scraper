@@ -3,8 +3,8 @@ import cors from "cors";
 
 import logger from "./middleware/rootLogger";
 import {
+  generateHTML,
   getErrorMessage,
-  getWeek,
   getWeekYear,
   queryHTML,
   scheduleTask,
@@ -49,11 +49,8 @@ connect(`${MONGOB_URL}`)
           });
         });
       const animes = await queryHTML();
-      console.log(animes.length);
-      // sendEmail(
-      //   String(data.length),
-      //   `Anime updates for you week #${getWeek()}`
-      // );
+      const html = generateHTML(animes);
+      sendEmail(html, `Anime updates for you week #${getWeekYear()}`);
     } catch (error) {
       console.log(getErrorMessage(error));
     }
