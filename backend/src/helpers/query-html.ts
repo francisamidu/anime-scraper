@@ -31,7 +31,7 @@ const queryHTML = async () => {
             logger("info", {
               message: `Scraped ${link}`,
               name: "Info",
-              information: site,
+              information: site.title,
             });
           }
         }

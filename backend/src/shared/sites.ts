@@ -17,7 +17,7 @@ export default [
   {
     title: "requested-list",
     file: "gogoanime-requested.html",
-    link: "https://gogoanime.news/requested-list",
+    link: "https://gogoanime.news/requested-list.html",
   },
   {
     title: "trailers",
