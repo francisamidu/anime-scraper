@@ -47,14 +47,14 @@ const createTransporter = async () => {
   return transporter;
 };
 
-const sendEmail = async (text: string, subject: string) => {
+const sendEmail = async (html: string, subject: string) => {
   let emailTransporter = await createTransporter();
   try {
     await emailTransporter.sendMail({
       from: FROM_EMAIL,
       to: TO_EMAIL,
       subject,
-      text,
+      html,
     });
   } catch (error) {
     const message = getErrorMessage(error);

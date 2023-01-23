@@ -105,6 +105,7 @@ export default (dom: JSDOM, name: string) => {
           },
         ];
       });
+      console.log(scraped);
       return scraped;
     }
     case "upcoming": {

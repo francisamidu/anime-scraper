@@ -5,7 +5,7 @@ import logger from "./middleware/rootLogger";
 import {
   generateHTML,
   getErrorMessage,
-  getWeekYear,
+  getWeek,
   queryHTML,
   scheduleTask,
   sendEmail,
@@ -50,7 +50,17 @@ connect(`${MONGOB_URL}`)
         });
       const animes = await queryHTML();
       const html = generateHTML(animes);
-      sendEmail(html, `Anime updates for you week #${getWeekYear()}`);
+      sendEmail(html, `Anime updates for you week #${getWeek()}`);
+      // scheduleTask("* * * * * 7",async() => {
+      //   try{
+      //     const animes = await queryHTML();
+      // const html = generateHTML(animes);
+      // sendEmail(html, `Anime updates for you week #${getWeek()}`);
+      //   }catch(error){
+      //     const msg = getErrorMessage(error)
+      //     console.log(msg)
+      //   }
+      // })
     } catch (error) {
       console.log(getErrorMessage(error));
     }
