@@ -48,9 +48,9 @@ connect(`${MONGOB_URL}`)
             process.kill(process.pid, "SIGINT");
           });
         });
-      const animes = await queryHTML();
-      const html = generateHTML(animes);
-      sendEmail(html, `Anime updates for you week #${getWeek()}`);
+      // const animes = await queryHTML();
+      // const html = generateHTML(animes);
+      // sendEmail(html, `Anime updates for you week #${getWeek()}`);
       // scheduleTask("* * * * * 7",async() => {
       //   try{
       //     const animes = await queryHTML();

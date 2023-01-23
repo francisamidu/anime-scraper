@@ -16,7 +16,8 @@ class AnimeService {
   }
   static async animes(_: Request, res: Response) {
     try {
-      let animeList = await queryHTML();
+      // let animeList = await queryHTML();
+      let animeList = await Anime.find({});
       // for (let index = 0; index < animes.length; index++) {
       //   const animeRes = await Anime.findOne({
       //     title: new RegExp("^" + animes[index], "i"),
