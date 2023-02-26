@@ -10,27 +10,16 @@ import {
   scheduleTask,
   sendEmail,
 } from "./helpers";
-import { api } from "./api/routes";
-import { connect } from "mongoose";
-
-//Env config
 
 //Init server app
 const app = express();
 
 //Constants
 const PORT = Number(process.env.PORT) || 8081;
-const MONGOB_URL =
-  app.get("env") === "production"
-    ? process.env.MONGODB_URL
-    : "mongodb://127.0.0.1:27017/anime-scraper?readPreference=primary&directConnection=true";
 
 //cors middleware config
 app.use(cors());
 
-app.use("/api", api);
-connect(`${MONGOB_URL}`)
-  .then(async () => {
     try {
       app
         .listen(PORT, () => {
@@ -54,8 +43,8 @@ connect(`${MONGOB_URL}`)
       scheduleTask("* * * * * 7", async () => {
         try {
           const animes = await queryHTML();
-          const html = generateHTML(animes);
-          sendEmail(html, `Anime updates for you week #${getWeek()}`);
+          // const html = generateHTML(animes);
+          // sendEmail(html, `Anime updates for you week #${getWeek()}`);
         } catch (error) {
           const msg = getErrorMessage(error);
           console.log(msg);
@@ -64,7 +53,4 @@ connect(`${MONGOB_URL}`)
     } catch (error) {
       console.log(getErrorMessage(error));
     }
-  })
-  .catch((error) => {
-    console.log(getErrorMessage(error));
-  });
+  
