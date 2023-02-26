@@ -5,6 +5,24 @@ import { AnimeLite } from "../types";
 
 export default (dom: JSDOM, name: string) => {
   switch (name) {
+    case "anihdplay": {
+      let scraped: AnimeLite[] = [];
+      let content = [
+        ...dom.window.document.querySelectorAll(".main-content .items li"),
+      ];
+      content.forEach((item) => {
+        const link = item.querySelector("a")?.getAttribute("href") || "";
+        const image =
+          item.querySelector("img")?.getAttribute("data-savepage-src") || "";
+        const title = item.querySelector(".name")?.textContent || "";
+        scraped.push({
+          link,
+          image,
+          title,
+        });
+      });
+      return scraped;
+    }
     case "animesuge": {
       let scraped: AnimeLite[] = [];
       const site = sites.find((site) => site.link.includes(name))?.link || "";

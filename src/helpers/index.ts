@@ -12,7 +12,6 @@ import removeDuplicates from "./remove-duplicates";
 import removeUndefined from "./remove-undefined";
 import scheduleTask from "./schedule-task";
 import sendEmail from "./send-email";
-import serializeValidationResult from "./serialize-validation-result";
 import writeToFile from "./write-to-file";
 
 export {
@@ -31,6 +30,5 @@ export {
   queryHTML,
   scheduleTask,
   sendEmail,
-  serializeValidationResult,
   writeToFile,
 };

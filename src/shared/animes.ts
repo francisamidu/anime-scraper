@@ -25,4 +25,8 @@ export default [
   "Busou Shoujo Machiavellianism",
   "ReLife",
   "Kage no Jitsuryokusha ni Naritakute!",
+  "Strongest exorcist",
+  "Ice-blade Sorcerer",
+  "Eminence in shadow",
+  "Kage no jitsuryokusha",
 ];

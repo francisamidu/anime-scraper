@@ -9,6 +9,11 @@ export default [
   //   file: "animixplaytube.html",
   //   link: "https://animixplay.tube",
   // },
+  {
+    title: "anihdplay",
+    file: "anihdplay.html",
+    link: "https://anihdplay.com/",
+  },
   // {
   //   title: "news",
   //   file: "index.html",

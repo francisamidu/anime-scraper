@@ -1,7 +1,7 @@
 import sites from "../shared/sites";
 import { JSDOM } from "jsdom";
 import logger from "../middleware/rootLogger";
-import { getContent, getHTML, getLinks } from ".";
+import { getContent, getFile, getHTML, getLinks } from ".";
 
 const queryHTML = async () => {
   try {
@@ -11,22 +11,26 @@ const queryHTML = async () => {
       name: "Info",
       information: "Anime-Scraper",
     });
-    for (let site of sites) {
-      let html = await getHTML(site.link);
-      let dom = new JSDOM(html);
-      let links = getLinks(dom, site.title);
-      for (let link of links) {
-        let file = await getHTML(link);
-        let dom = new JSDOM(file);
-        let content = getContent(dom, link);
-        scraped = [scraped, content].flat(Infinity);
-        logger("info", {
-          message: `Scraped ${link}`,
-          name: "Info",
-          information: site.title,
-        });
-      }
-    }
+    const anihd = await getFile("anihdplay.html");
+    let dom = new JSDOM(anihd);
+    let content = getContent(dom, "anihdplay");
+
+    // for (let site of sites) {
+    //   let html = await getHTML(site.link);
+    //   let dom = new JSDOM(html);
+    //   let links = getLinks(dom, site.title);
+    //   for (let link of links) {
+    //     let file = await getHTML(link);
+    //     let dom = new JSDOM(file);
+    //     let content = getContent(dom, link);
+    //     scraped = [scraped, content].flat(Infinity);
+    //     logger("info", {
+    //       message: `Scraped ${link}`,
+    //       name: "Info",
+    //       information: site.title,
+    //     });
+    //   }
+    // }
     return scraped;
   } catch (error) {
     throw error;

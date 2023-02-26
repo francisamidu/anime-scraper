@@ -15,6 +15,13 @@ const getGogoLinks = (dom: JSDOM, site: string) => {
 const getLinks = (dom: JSDOM, site: string): string[] => {
   let siteLink = sites.find((s) => s.title === site)?.link || "";
   switch (site) {
+    case "anihdplay": {
+      let anihdLinkDom = dom.window.document.querySelectorAll(".pagination a");
+      const anidhLinks = [...anihdLinkDom]
+        .map((el) => `${siteLink}${el.getAttribute("href")}`)
+        .filter((el) => !!el);
+      return anidhLinks;
+    }
     case "animesuge.to": {
       let linkDom = dom.window.document.querySelectorAll(".anime_list a");
     }
