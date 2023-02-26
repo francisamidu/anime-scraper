@@ -37,7 +37,7 @@ try {
         process.kill(process.pid, "SIGINT");
       });
     });
-  scheduleTask("* * 5 * * *", async () => {
+  scheduleTask("* * * * * 1", async () => {
     try {
       const animes = await queryHTML();
       const html = generateHTML(animes);
