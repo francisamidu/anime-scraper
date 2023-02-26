@@ -14,7 +14,7 @@ export default (dom: JSDOM, name: string) => {
         const link = item.querySelector("a")?.getAttribute("href") || "";
         const image =
           item.querySelector("img")?.getAttribute("data-savepage-src") || "";
-        const title = item.querySelector(".name")?.textContent || "";
+        const title = item.querySelector(".name")?.textContent?.trim() || "";
         scraped.push({
           link,
           image,

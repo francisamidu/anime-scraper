@@ -37,19 +37,16 @@ try {
         process.kill(process.pid, "SIGINT");
       });
     });
-  // const animes = await queryHTML();
-  // const html = generateHTML(animes);
-  // sendEmail(html, `Anime updates for you week #${getWeek()}`);
-  scheduleTask("* * * * * 7", async () => {
+  scheduleTask("* * 5 * * *", async () => {
     try {
       const animes = await queryHTML();
-      // const html = generateHTML(animes);
-      // sendEmail(html, `Anime updates for you week #${getWeek()}`);
+      const html = generateHTML(animes);
+      sendEmail(html, `Anime updates for you week #${getWeek()}`);
     } catch (error) {
       const msg = getErrorMessage(error);
-      // console.log(msg);
+      console.log(msg);
     }
   });
 } catch (error) {
-  // console.log(getErrorMessage(error));
+  console.log(getErrorMessage(error));
 }
