@@ -18,6 +18,7 @@ const getLinks = (dom: JSDOM, site: string): string[] => {
     case "anihdplay": {
       let anihdLinkDom = dom.window.document.querySelectorAll(".pagination a");
       const anidhLinks = [...anihdLinkDom]
+        .slice(1, -1)
         .map((el) => `${siteLink}${el.getAttribute("href")}`)
         .filter((el) => !!el);
       return anidhLinks;
