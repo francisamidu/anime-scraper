@@ -1,6 +1,7 @@
 import filterAnimes from "./filter-animes";
 import generateHTML from "./generate-html";
 import getContent from "./get-content";
+import getCustomFieldID from "./get-custom-field-id";
 import getDaysInMonth from "./get-days-in-month";
 import getErrorMessage from "./get-error-message";
 import getFile from "./get-file";
@@ -12,12 +13,14 @@ import removeDuplicates from "./remove-duplicates";
 import removeUndefined from "./remove-undefined";
 import scheduleTask from "./schedule-task";
 import sendEmail from "./send-email";
+import sendgridClient from "./sendgrid-client";
 import writeToFile from "./write-to-file";
 
 export {
   filterAnimes,
   getDaysInMonth,
   getContent,
+  getCustomFieldID,
   getErrorMessage,
   getFile,
   generateHTML,
@@ -30,5 +33,6 @@ export {
   queryHTML,
   scheduleTask,
   sendEmail,
+  sendgridClient,
   writeToFile,
 };
