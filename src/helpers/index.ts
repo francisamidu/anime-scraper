@@ -1,5 +1,6 @@
 import addContact from "./add-contact";
 import addContactToList from "./add-contact-to-list";
+import deleteContactFromList from "./delete-contact-from-list";
 import filterAnimes from "./filter-animes";
 import generateHTML from "./generate-html";
 import getContactByEmail from "./get-contact-by-email";
@@ -23,6 +24,7 @@ import writeToFile from "./write-to-file";
 export {
   addContact,
   addContactToList,
+  deleteContactFromList,
   filterAnimes,
   getDaysInMonth,
   getContent,

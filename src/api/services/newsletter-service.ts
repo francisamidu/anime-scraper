@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   addContact,
   addContactToList,
+  deleteContactFromList,
   getContactByEmail,
   getListID,
   sendgridMail,
@@ -36,6 +37,28 @@ class NewsletterService {
       return res.status(401).json({
         message: "Subscription was unsuccessful. Please try again",
       });
+    }
+  }
+  static async unsubscribe(req: Request, res: Response) {
+    try {
+      const contact = await getContactByEmail(String(req.query.email));
+      if (contact == null) throw `Contact not found.`;
+      if (contact.custom_fields.conf_num == req.query.conf_num) {
+        const listID = await getListID("Newsletter Subscribers");
+        await deleteContactFromList(listID, contact);
+        res.render("message", {
+          message:
+            'You have been successfully unsubscribed. If this was a mistake re-subscribe <a href="/signup">here</a>.',
+        });
+      } else
+        throw "Confirmation number does not match or contact is not subscribed";
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(401)
+        .json({
+          message: "Email could not be unsubscribed. please try again.",
+        });
     }
   }
 }
