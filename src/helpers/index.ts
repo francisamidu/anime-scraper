@@ -1,3 +1,4 @@
+import addContact from "./add-contact";
 import filterAnimes from "./filter-animes";
 import generateHTML from "./generate-html";
 import getContent from "./get-content";
@@ -13,10 +14,11 @@ import removeDuplicates from "./remove-duplicates";
 import removeUndefined from "./remove-undefined";
 import scheduleTask from "./schedule-task";
 import sendEmail from "./send-email";
-import sendgridClient from "./sendgrid-client";
+import { sendgridClient, sendgridMail } from "./sendgrid-client";
 import writeToFile from "./write-to-file";
 
 export {
+  addContact,
   filterAnimes,
   getDaysInMonth,
   getContent,
@@ -34,5 +36,6 @@ export {
   scheduleTask,
   sendEmail,
   sendgridClient,
+  sendgridMail,
   writeToFile,
 };
