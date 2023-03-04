@@ -10,6 +10,7 @@ import {
   scheduleTask,
   sendEmail,
 } from "./helpers";
+import { api } from "./api/routes";
 
 //Init server app
 const app = express();
@@ -19,6 +20,8 @@ const PORT = Number(process.env.PORT) || 8081;
 
 //cors middleware config
 app.use(cors());
+
+app.use("/api", [api]);
 
 try {
   app

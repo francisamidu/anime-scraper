@@ -9,7 +9,7 @@ import {
 } from "../../helpers";
 
 class NewsletterService {
-  static async signup(req: Request, res: Response) {
+  static async subscribe(req: Request, res: Response) {
     const confirmationURL = "https://anime-scraper/confirm";
     const msg = {
       to: req.body.email,
@@ -48,17 +48,15 @@ class NewsletterService {
         await deleteContactFromList(listID, contact);
         res.render("message", {
           message:
-            'You have been successfully unsubscribed. If this was a mistake re-subscribe <a href="/signup">here</a>.',
+            'You have been successfully unsubscribed. If this was a mistake re-subscribe <a href="https://anime-scraper/signup">here</a>.',
         });
       } else
         throw "Confirmation number does not match or contact is not subscribed";
     } catch (error) {
       console.error(error);
-      return res
-        .status(401)
-        .json({
-          message: "Email could not be unsubscribed. please try again.",
-        });
+      return res.status(401).json({
+        message: "Email could not be unsubscribed. please try again.",
+      });
     }
   }
 }
