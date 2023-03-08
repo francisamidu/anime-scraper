@@ -40,16 +40,16 @@ try {
         process.kill(process.pid, "SIGINT");
       });
     });
-  scheduleTask("* * * * * 1", async () => {
-    try {
-      const animes = await queryHTML();
-      const html = generateHTML(animes);
-      sendEmail(html, `Anime updates for you week #${getWeek()}`);
-    } catch (error) {
-      const msg = getErrorMessage(error);
-      console.log(msg);
-    }
-  });
+  // scheduleTask("* * * * * 1", async () => {
+  //   try {
+  //     const animes = await queryHTML();
+  //     const html = generateHTML(animes);
+  //     sendEmail(html, `Anime updates for you week #${getWeek()}`);
+  //   } catch (error) {
+  //     const msg = getErrorMessage(error);
+  //     console.log(msg);
+  //   }
+  // });
 } catch (error) {
   console.log(getErrorMessage(error));
 }
