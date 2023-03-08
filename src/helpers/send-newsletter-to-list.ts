@@ -1,4 +1,5 @@
 import { sendgridClient, sendgridMail } from ".";
+const ckey = require("ckey");
 const sendNewsletterToList = async (
   subject: string,
   htmlNewsletter: string,
@@ -17,7 +18,7 @@ const sendNewsletterToList = async (
     const unsubscribeURL = `https://anime-scraper/delete?email=${subscriber.email}`;
     const msg = {
       to: subscriber.email, // Change to your recipient
-      from: "SENDER_EMAIL", // Change to your verified sender
+      from: ckey.TO_EMAIL, // Change to your verified sender
       subject: subject,
       html:
         htmlNewsletter + `<a href="${unsubscribeURL}"> Unsubscribe here</a>`,

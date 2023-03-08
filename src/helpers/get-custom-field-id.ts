@@ -1,4 +1,4 @@
-import sendgridClient from "./sendgrid-client";
+import sendgridClient from ".";
 
 const getCustomFieldID = async (customFieldName: string) => {
   const request = {

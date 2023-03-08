@@ -7,13 +7,14 @@ import {
   getListID,
   sendgridMail,
 } from "../../helpers";
+const ck = require("ckey");
 
 class NewsletterService {
   static async subscribe(req: Request, res: Response) {
     const confirmationURL = "https://anime-scraper/confirm";
     const msg = {
       to: req.body.email,
-      from: "SENDER_EMAIL", // Change to your verified sender
+      from: ck.TO_EMAIL, // Change to your verified sender
       subject: `Confirm your subscription to our newsletter`,
       html: `Hello ${req.body.firstname},<br>Thank you for subscribing to our newsletter. Please complete and confirm your subscription by <a href="${confirmationURL}`,
     };

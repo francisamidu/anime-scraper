@@ -1,4 +1,4 @@
-import { sendgridClient } from "./sendgrid-client";
+import { sendgridClient } from ".";
 
 const addContactToList = async (email: string, listID: string) => {
   const data = {
