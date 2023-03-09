@@ -1,14 +1,14 @@
 import { getCustomFieldID, sendgridClient } from ".";
 import { SENDGRID_MARKETING_URL } from "../shared/constants";
 
-const addContact = async (name: string, email: string) => {
+const addContact = async (firstName: string, email: string) => {
   const confNum = Math.floor(Math.random() * 90000) + 10000;
   const customFieldID = await getCustomFieldID("conf_num");
   const data = {
     contacts: [
       {
         email: email,
-        unique_name: name,
+        first_name: firstName,
         custom_fields: {} as any,
       },
     ],

@@ -52,7 +52,7 @@ class NewsletterService {
           to: String(req.query.email),
           from: ck.TO_EMAIL, // Change to your verified sender
           subject: "Subscription Notification",
-          html: `You have been successfully unsubscribed. If this was a mistake re-subscribe <a href="https://anime-scraper/signup">here</a>.`,
+          html: `You have been successfully unsubscribed. If this was a mistake re-subscribe <a href="https://anime-scraper/subscribe">here</a>.`,
         };
         await sendgridMail.send(msg);
       } else
