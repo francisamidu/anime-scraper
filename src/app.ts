@@ -12,7 +12,6 @@ import {
   sendNewsletterToList,
 } from "./helpers";
 import { api } from "./api/routes";
-import { SENDGRID_MARKETING_URL } from "./shared/constants";
 
 //Init server app
 const app = express();
