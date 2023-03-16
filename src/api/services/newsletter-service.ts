@@ -43,13 +43,13 @@ class NewsletterService {
   }
   static async unsubscribe(req: Request, res: Response) {
     try {
-      const contact = await getContactByEmail(String(req.query.email));
+      const contact = await getContactByEmail(String(req.body.email));
       if (contact == null) throw `Contact not found.`;
-      if (contact.custom_fields.conf_num == req.query.conf_num) {
+      if (contact.custom_fields.conf_num == req.body.conf_num) {
         const listID = await getListID("Newsletter Subscribers");
         await deleteContactFromList(listID, contact);
         const msg = {
-          to: String(req.query.email),
+          to: String(req.body.email),
           from: ck.TO_EMAIL, // Change to your verified sender
           subject: "Subscription Notification",
           html: `You have been successfully unsubscribed. If this was a mistake re-subscribe <a href="https://anime-scraper/subscribe">here</a>.`,
