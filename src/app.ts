@@ -9,8 +9,6 @@ import {
   getWeek,
   queryHTML,
   scheduleTask,
-  sendEmail,
-  sendgridClient,
   sendNewsletterToList,
 } from "./helpers";
 import { api } from "./api/routes";
@@ -53,7 +51,12 @@ const init = async () => {
       try {
         const animes = await queryHTML();
         const html = generateHTML(animes);
-        sendEmail(html, `Anime updates for you week #${getWeek()}`);
+        const listID = await getListID("anime-scraper-newsletter");
+        sendNewsletterToList(
+          `Anime updates for you week #${getWeek()}`,
+          html,
+          listID
+        );
       } catch (error) {
         const msg = getErrorMessage(error);
         console.log(msg);
