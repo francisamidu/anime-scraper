@@ -19,43 +19,24 @@ const queryHTML = async () => {
       name: "Info",
       information: "Anime-Scraper",
     });
-    const file = await getFile(sites[4].file);
-    const dom = new JSDOM(file);
-    const tempLinks = getLinks(dom, sites[4].title);
-    console.log(tempLinks);
-
-    let tempContent: any[] = [];
-
     await Promise.all(
-      tempLinks.map(async (link) => {
+      sites.map(async (site) => {
+        let html = await getHTML(site.link);
+        let dom = new JSDOM(html);
+        links = [...links, getLinks(dom, site.title)].flat(Infinity);
+        links = Array.from(new Set(links));
+      })
+    ).finally(async () => {
+      for (let link of links) {
         const siteLink =
           sites.find((site) => link.includes(site.title))?.title || "";
         let file = await getHTML(link);
         let dom = new JSDOM(file);
         let content = getContent(dom, siteLink);
-        tempContent = [...tempContent, content].flat(Infinity);
-        tempContent = removeDuplicates(tempContent);
-      })
-    );
-    console.log(tempContent);
-    // await Promise.all(
-    //   sites.map(async (site) => {
-    //     let html = await getHTML(site.link);
-    //     let dom = new JSDOM(html);
-    //     links = [...links, getLinks(dom, site.title)].flat(Infinity);
-    //     links = Array.from(new Set(links));
-    //   })
-    // ).finally(async () => {
-    //   for (let link of links) {
-    //     const siteLink =
-    //       sites.find((site) => link.includes(site.title))?.title || "";
-    //     let file = await getHTML(link);
-    //     let dom = new JSDOM(file);
-    //     let content = getContent(dom, siteLink);
-    //     scraped = [scraped, content].flat(Infinity);
-    //     scraped = removeDuplicates(scraped);
-    //   }
-    // });
+        scraped = [scraped, content].flat(Infinity);
+        scraped = removeDuplicates(scraped);
+      }
+    });
     return scraped;
   } catch (error) {
     throw error;
