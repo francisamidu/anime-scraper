@@ -35,7 +35,7 @@ class NewsletterService {
       to: req.body.email,
       from: ck.TO_EMAIL, // Change to your verified sender
       subject: "Confirm your subscription to our newsletter",
-      html: `Hello ${req.body.firstName},<br>Thank you for subscribing to our newsletter. Please complete and confirm your subscription by <a href="${confirmationURL}</a>`,
+      html: `Hello ${req.body.firstName},<br>Thank you for subscribing to our newsletter. <a href="${confirmationURL}">Please complete and confirm your subscription</a>`,
     };
     await addContact(req.body.firstName, req.body.email);
     await sendgridMail.send(msg);
