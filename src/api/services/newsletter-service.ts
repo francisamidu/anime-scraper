@@ -13,11 +13,11 @@ const ck = require("ckey");
 class NewsletterService {
   static async confirm(req: Request, res: Response) {
     try {
-      const contact = await getContactByEmail(String(req.query.email));
+      const contact = await getContactByEmail(String(req.body.email));
       if (contact == null) throw `Contact not found.`;
-      if (contact.custom_fields.conf_num == req.query.conf_num) {
+      if (contact.custom_fields.conf_num == req.body.conf_num) {
         const listID = await getListID("Newsletter Subscribers");
-        await addContactToList(String(req.query.email), listID);
+        await addContactToList(String(req.body.email), listID);
       } else {
         throw "Confirmation number does not match";
       }
