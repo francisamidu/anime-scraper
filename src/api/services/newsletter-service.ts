@@ -11,6 +11,11 @@ import {
 const ck = require("ckey");
 
 class NewsletterService {
+  static async get(req: Request, res: Response) {
+    res.status(200).json({
+      message: "Welcome to anime scraper",
+    });
+  }
   static async confirm(req: Request, res: Response) {
     try {
       const contact = await getContactByEmail(String(req.body.email));

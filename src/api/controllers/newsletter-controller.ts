@@ -4,6 +4,8 @@ import { NewsletterService } from "../services";
 
 const router = express.Router();
 
+router.get("/", NewsletterService.get);
+
 router.post("/confirm", NewsletterService.confirm);
 
 router.post("/subscribe", NewsletterService.subscribe);
