@@ -10,6 +10,7 @@ import {
 } from "../../helpers";
 const ck = require("ckey");
 
+const BASE_URL = "https://anime-scraper.netlify.app";
 class NewsletterService {
   static async get(req: Request, res: Response) {
     res.status(200).json({
@@ -35,7 +36,7 @@ class NewsletterService {
     }
   }
   static async subscribe(req: Request, res: Response) {
-    const confirmationURL = "https://anime-scraper/confirm";
+    const confirmationURL = `${BASE_URL}/confirm`;
     const msg = {
       to: req.body.email,
       from: ck.TO_EMAIL, // Change to your verified sender
@@ -44,7 +45,9 @@ class NewsletterService {
     };
     await addContact(req.body.firstName, req.body.email);
     await sendgridMail.send(msg);
-    return res.status(200).json({ result: "Subscribed" });
+    return res.status(200).json({
+      result: "We have sent you an email to confirm your subscription",
+    });
   }
   static async unsubscribe(req: Request, res: Response) {
     try {
@@ -57,7 +60,7 @@ class NewsletterService {
           to: String(req.body.email),
           from: ck.TO_EMAIL, // Change to your verified sender
           subject: "Subscription Notification",
-          html: `You have been successfully unsubscribed. If this was a mistake re-subscribe <a href="https://anime-scraper/subscribe">here</a>.`,
+          html: `You have been successfully unsubscribed. If this was a mistake re-subscribe <a href="${BASE_URL}/subscribe">here</a>.`,
         };
         await sendgridMail.send(msg);
       } else
