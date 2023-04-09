@@ -19,9 +19,11 @@ const queryHTML = async () => {
       name: "Info",
       information: "Anime-Scraper",
     });
-    const file = await getFile(sites[3].file);
+    const file = await getFile(sites[4].file);
     const dom = new JSDOM(file);
-    const tempLinks = getLinks(dom, sites[3].title);
+    const tempLinks = getLinks(dom, sites[4].title);
+    console.log(tempLinks);
+
     let tempContent: any[] = [];
 
     await Promise.all(

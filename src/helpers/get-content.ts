@@ -4,7 +4,6 @@ import { removeDuplicates, removeUndefined } from ".";
 import { AnimeLite } from "../types";
 
 export default (dom: JSDOM, name: string) => {
-  console.log(name);
   switch (name) {
     case "anihdplay": {
       let scraped: AnimeLite[] = [];
@@ -127,8 +126,8 @@ export default (dom: JSDOM, name: string) => {
     case "reviews": {
       let scraped: AnimeLite[] = [];
       let site = sites.find((site) => site.title.includes(name))?.link || "";
-      site = site.replace("/releases", "");
-      let itemsList = dom.window.document.querySelector(".items");
+      site = site.replace("/reviews", "");
+      let itemsList = dom.window.document.querySelector(".item-news");
       let liElements = itemsList?.querySelectorAll("li");
       liElements?.forEach((li) => {
         let image = li.querySelector("img")?.getAttribute("src");
@@ -146,6 +145,7 @@ export default (dom: JSDOM, name: string) => {
           },
         ];
       });
+      console.log(scraped);
       return removeDuplicates(scraped);
     }
     case "trailers": {
