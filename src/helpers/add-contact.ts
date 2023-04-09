@@ -1,8 +1,7 @@
 import { getCustomFieldID, sendgridClient } from ".";
 
 const addContact = async (
-  firstName: string,
-  lastName: string,
+  name:string,
   email: string
 ) => {
   const confNum = Math.floor(Math.random() * 90000) + 10000;
@@ -11,8 +10,7 @@ const addContact = async (
     contacts: [
       {
         email: email,
-        first_name: firstName,
-        last_name: lastName,
+        name,        
         custom_fields: {} as any,
       },
     ],
