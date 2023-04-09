@@ -4,6 +4,7 @@ import { removeDuplicates, removeUndefined } from ".";
 import { AnimeLite } from "../types";
 
 export default (dom: JSDOM, name: string) => {
+  console.log(name);
   switch (name) {
     case "anihdplay": {
       let scraped: AnimeLite[] = [];
@@ -102,6 +103,7 @@ export default (dom: JSDOM, name: string) => {
       let scraped: AnimeLite[] = [];
       let site = sites.find((site) => site.title.includes(name))?.link || "";
       site = site.replace("/releases", "");
+      console.log(site);
       let itemsList = dom.window.document.querySelector(".items");
       let liElements = itemsList?.querySelectorAll("li");
       liElements?.forEach((li) => {

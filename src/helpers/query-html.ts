@@ -22,7 +22,6 @@ const queryHTML = async () => {
     const file = await getFile(sites[3].file);
     const dom = new JSDOM(file);
     const tempLinks = getLinks(dom, sites[3].title);
-    console.log(tempLinks);
     let tempContent: any[] = [];
     await Promise.all(
       tempLinks.map(async (link) => {
