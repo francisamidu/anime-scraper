@@ -30,7 +30,7 @@ export default [
     link: "https://gogoanime.news/news/trailers",
   },
   {
-    title: "releases",
+    title: "release",
     file: "gogoanime-releases.html",
     link: "https://gogoanime.news/recent-release-anime",
   },

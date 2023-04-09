@@ -23,10 +23,11 @@ const queryHTML = async () => {
     const dom = new JSDOM(file);
     const tempLinks = getLinks(dom, sites[3].title);
     let tempContent: any[] = [];
+
     await Promise.all(
       tempLinks.map(async (link) => {
         const siteLink =
-          sites.find((site) => site.link.includes(link))?.title || "";
+          sites.find((site) => link.includes(site.title))?.title || "";
         let file = await getHTML(link);
         let dom = new JSDOM(file);
         let content = getContent(dom, siteLink);
@@ -45,7 +46,7 @@ const queryHTML = async () => {
     // ).finally(async () => {
     //   for (let link of links) {
     //     const siteLink =
-    //       sites.find((site) => site.link.includes(link))?.title || "";
+    //       sites.find((site) => link.includes(site.title))?.title || "";
     //     let file = await getHTML(link);
     //     let dom = new JSDOM(file);
     //     let content = getContent(dom, siteLink);

@@ -99,7 +99,7 @@ export default (dom: JSDOM, name: string) => {
       });
       return removeDuplicates(scraped);
     }
-    case "releases": {
+    case "release": {
       let scraped: AnimeLite[] = [];
       let site = sites.find((site) => site.title.includes(name))?.link || "";
       site = site.replace("/releases", "");

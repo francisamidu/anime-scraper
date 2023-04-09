@@ -31,7 +31,7 @@ const getLinks = (dom: JSDOM, site: string): string[] => {
     case "requested-list": {
       return getGogoLinks(dom, siteLink);
     }
-    case "releases": {
+    case "release": {
       let linkDom = dom.window.document.querySelectorAll(".pagination-list a");
       let links = [...linkDom]
         .map((el) => `${siteLink}${el.getAttribute("href")}`)
