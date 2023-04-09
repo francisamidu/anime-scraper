@@ -8,7 +8,7 @@ const addContact = async (name: string, email: string) => {
     contacts: [
       {
         email: email,
-        name,
+        unique_name: name,
         custom_fields: {} as any,
       },
     ],

@@ -18,6 +18,7 @@ import removeDuplicates from "./remove-duplicates";
 import removeUndefined from "./remove-undefined";
 import scheduleTask from "./schedule-task";
 import sendEmail from "./send-email";
+import sendNewsletterToList from "./send-newsletter-to-list";
 import { sendgridClient, sendgridMail } from "./sendgrid-client";
 import writeToFile from "./write-to-file";
 
@@ -43,6 +44,7 @@ export {
   queryHTML,
   scheduleTask,
   sendEmail,
+  sendNewsletterToList,
   sendgridClient,
   sendgridMail,
   writeToFile,

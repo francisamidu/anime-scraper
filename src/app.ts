@@ -5,11 +5,13 @@ import logger from "./middleware/rootLogger";
 import {
   generateHTML,
   getErrorMessage,
+  getListID,
   getWeek,
   queryHTML,
   scheduleTask,
   sendEmail,
   sendgridClient,
+  sendNewsletterToList,
 } from "./helpers";
 import { api } from "./api/routes";
 import { SENDGRID_MARKETING_URL } from "./shared/constants";
@@ -27,40 +29,42 @@ app.use(urlencoded({ extended: false }));
 
 app.use("/api", api);
 
-try {
-  app
-    .listen(PORT, () => {
-      logger("Info", {
-        name: "Info",
-        message: `Server app runnning on port: ${PORT}`,
+const init = async () => {
+  try {
+    app
+      .listen(PORT, () => {
+        logger("Info", {
+          name: "Info",
+          message: `Server app runnning on port: ${PORT}`,
+        });
+      }) //   Fix the Error EADDRINUSE
+      .on("error", () => {
+        process.once("SIGUSR2", () => {
+          process.kill(process.pid, "SIGUSR2");
+        });
+        process.on("SIGINT", () => {
+          // this is only called on ctrl+c, not restart
+          process.kill(process.pid, "SIGINT");
+        });
       });
-      sendgridClient
-        .request({
-          url: SENDGRID_MARKETING_URL,
-          method: "GET",
-        })
-        .then((res) => console.log(res))
-        .catch((error) => console.log(error));
-    }) //   Fix the Error EADDRINUSE
-    .on("error", () => {
-      process.once("SIGUSR2", () => {
-        process.kill(process.pid, "SIGUSR2");
-      });
-      process.on("SIGINT", () => {
-        // this is only called on ctrl+c, not restart
-        process.kill(process.pid, "SIGINT");
-      });
-    });
-  // scheduleTask("* * * * * 1", async () => {
-  //   try {
-  //     const animes = await queryHTML();
-  //     const html = generateHTML(animes);
-  //     sendEmail(html, `Anime updates for you week #${getWeek()}`);
-  //   } catch (error) {
-  //     const msg = getErrorMessage(error);
-  //     console.log(msg);
-  //   }
-  // });
-} catch (error) {
-  console.log(getErrorMessage(error));
-}
+    // const animes = await queryHTML();
+    // const html = generateHTML(animes);
+    const listID = await getListID("Newsletter Subscribers");
+    console.log(listID);
+    // sendNewsletterToList(`Anime updates for you week #${getWeek()}`,html,listID)
+    // scheduleTask("* * * * * 1", async () => {
+    //   try {
+    //     const animes = await queryHTML();
+    //     const html = generateHTML(animes);
+    //     sendEmail(html, `Anime updates for you week #${getWeek()}`);
+    //   } catch (error) {
+    //     const msg = getErrorMessage(error);
+    //     console.log(msg);
+    //   }
+    // });
+  } catch (error) {
+    console.log(getErrorMessage(error));
+  }
+};
+
+init();
