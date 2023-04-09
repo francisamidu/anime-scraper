@@ -1,3 +1,4 @@
+require('dotenv').config()
 const sendgridClient = require("@sendgrid/client");
 const sendgridMail = require("@sendgrid/mail");
 

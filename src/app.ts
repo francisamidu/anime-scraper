@@ -12,6 +12,7 @@ import {
 } from "./helpers";
 import { api } from "./api/routes";
 
+
 //Init server app
 const app = express();
 
@@ -50,6 +51,7 @@ try {
   //     console.log(msg);
   //   }
   // });
+
 } catch (error) {
   console.log(getErrorMessage(error));
 }
