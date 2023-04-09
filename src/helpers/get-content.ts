@@ -21,7 +21,7 @@ export default (dom: JSDOM, name: string) => {
           title,
         });
       });
-      return scraped;
+      return removeDuplicates(scraped);
     }
     case "animesuge": {
       let scraped: AnimeLite[] = [];
@@ -96,12 +96,11 @@ export default (dom: JSDOM, name: string) => {
           },
         ];
       });
-      return scraped;
+      return removeDuplicates(scraped);
     }
     case "trailers": {
       let scraped: AnimeLite[] = [];
       let site = sites.find((site) => site.link.includes(name))?.link || "";
-      site = site.replace("/trailers", "");
       const mainBody = dom.window.document.querySelector(".main_body");
       const itemsList = mainBody?.querySelector(".items-news");
       const liElements = itemsList?.querySelectorAll("li");
@@ -113,7 +112,10 @@ export default (dom: JSDOM, name: string) => {
         const el = li.querySelector(".title")?.firstElementChild;
         let title = el?.getAttribute("title");
         title = title || el?.textContent?.replace(/["']/g, "").trim();
-        const link = el?.getAttribute("href");
+        let link = el?.getAttribute("href") || "";
+        link.replace("/trailers", "");
+        console.log(site);
+        console.log(link);
         scraped = [
           ...scraped,
           {
@@ -123,8 +125,7 @@ export default (dom: JSDOM, name: string) => {
           },
         ];
       });
-      console.log(scraped);
-      return scraped;
+      return removeDuplicates(scraped);
     }
     case "upcoming": {
       let scraped: AnimeLite[] = [];
@@ -151,7 +152,7 @@ export default (dom: JSDOM, name: string) => {
           },
         ];
       });
-      return scraped;
+      return removeDuplicates(scraped);
     }
     default: {
       let pageContent = dom.window.document.querySelectorAll(
@@ -170,7 +171,7 @@ export default (dom: JSDOM, name: string) => {
         };
       });
       const animes = animeNames.filter((anime) => anime.title);
-      return animes;
+      return removeDuplicates(animes);
     }
   }
 };

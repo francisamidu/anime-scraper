@@ -50,11 +50,12 @@ const init = async () => {
     const animes = await queryHTML();
     const html = generateHTML(animes);
     const listID = await getListID("Anime Newsletter Subscribers");
-    await sendNewsletterToList(
-      `Anime updates for you week #${getWeek()}`,
-      html,
-      listID
-    );
+    // await sendNewsletterToList(
+    //   `Anime updates for you week #${getWeek()}`,
+    //   html,
+    //   listID
+    // );
+    logger("info", { name: "Info", message: "Send email to newsletter user" });
     // scheduleTask("* * * * * 1", async () => {
     //   try {
     //     const animes = await queryHTML();
