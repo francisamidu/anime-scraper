@@ -3,12 +3,9 @@ import { sites } from "../shared";
 const getGogoLinks = (dom: JSDOM, site: string) => {
   let linkDom = dom.window.document.querySelectorAll(".pagination li");
   const links = [...linkDom]
-    .map((link) => {
-      if (!link.classList.contains("selected")) {
-        return `${site}${link?.querySelector("a")?.getAttribute("href") || ""}`;
-      }
-      return "";
-    })
+    .map(
+      (link) => `${site}${link?.querySelector("a")?.getAttribute("href") || ""}`
+    )
     .filter((el) => !!el);
   return links;
 };
@@ -18,7 +15,7 @@ const getLinks = (dom: JSDOM, site: string): string[] => {
     case "anihdplay": {
       let anihdLinkDom = dom.window.document.querySelectorAll(".pagination a");
       const anidhLinks = [...anihdLinkDom]
-        .slice(1, -1)
+        .slice(0, -1)
         .map((el) => `${siteLink}${el.getAttribute("href")}`)
         .filter((el) => !!el);
       return anidhLinks;
