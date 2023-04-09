@@ -1,4 +1,4 @@
-import express from "express";
+import express,{json,urlencoded} from "express";
 import cors from "cors";
 
 import logger from "./middleware/rootLogger";
@@ -21,8 +21,10 @@ const PORT = Number(process.env.PORT) || 8081;
 
 //cors middleware config
 app.use(cors());
+app.use(json());
+app.use(urlencoded({ extended: false }));
 
-app.use("/api", [api]);
+app.use("/api", api);
 
 try {
   app
