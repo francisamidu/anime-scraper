@@ -1,7 +1,12 @@
-require('dotenv').config()
-const sendgridClient = require("@sendgrid/client");
-const sendgridMail = require("@sendgrid/mail");
+require("dotenv").config();
+import { Client } from "@sendgrid/client";
+import { MailService } from "@sendgrid/mail";
+const ckey = require("ckey");
+const sendgridClient = new Client();
+const sendgridMail = new MailService();
 
-sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
-sendgridClient.setApiKey(process.env.SENDGRID_API_KEY);
+const { SENDGRID_API_KEY } = ckey;
+
+sendgridMail.setApiKey(SENDGRID_API_KEY);
+sendgridClient.setApiKey(SENDGRID_API_KEY);
 export { sendgridClient, sendgridMail };

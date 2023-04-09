@@ -1,4 +1,5 @@
 import { sendgridClient, sendgridMail } from ".";
+import { SENDGRID_CONTACT_SEARCH_URL } from "../shared/constants";
 const ckey = require("ckey");
 const sendNewsletterToList = async (
   subject: string,
@@ -8,12 +9,12 @@ const sendNewsletterToList = async (
   const data = {
     query: `CONTAINS(list_ids, '${listID}')`,
   };
-  const request = {
-    url: `/v3/marketing/contacts/search`,
+
+  const response = await sendgridClient.request({
+    url: SENDGRID_CONTACT_SEARCH_URL,
     method: "POST",
     body: data,
-  };
-  const response = await sendgridClient.request(request);
+  });
   for (const subscriber of response[1].result) {
     const unsubscribeURL = `https://anime-scraper/delete?email=${subscriber.email}`;
     const msg = {

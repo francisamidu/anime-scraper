@@ -1,11 +1,11 @@
 import { sendgridClient } from ".";
+import { SENDGRID_FIELDS_URL } from "../shared/constants";
 
 const getCustomFieldID = async (customFieldName: string) => {
-  const request = {
-    url: `/v3/marketing/field_definitions`,
+  const response = await sendgridClient.request({
+    url: SENDGRID_FIELDS_URL,
     method: "GET",
-  };
-  const response = await sendgridClient.request(request);
+  });
   const allCustomFields = response[1].custom_fields;
   return allCustomFields.find(
     (x: { name: string }) => x.name === customFieldName

@@ -1,4 +1,5 @@
 import { sendgridClient } from ".";
+import { SENDGRID_MARKETING_URL } from "../shared/constants";
 
 const addContactToList = async (email: string, listID: string) => {
   const data = {
@@ -9,11 +10,10 @@ const addContactToList = async (email: string, listID: string) => {
       },
     ],
   };
-  const request = {
-    url: `/v3/marketing/contacts`,
-    method: "PUT",
+  return sendgridClient.request({
+    url: SENDGRID_MARKETING_URL,
     body: data,
-  };
-  return sendgridClient.request(request);
+    method: "PUT",
+  });
 };
 export default addContactToList;

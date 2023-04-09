@@ -5,6 +5,7 @@ import {
   deleteContactFromList,
   getContactByEmail,
   getListID,
+  sendgridClient,
   sendgridMail,
 } from "../../helpers";
 const ck = require("ckey");
@@ -15,7 +16,7 @@ class NewsletterService {
     const msg = {
       to: req.body.email,
       from: ck.TO_EMAIL, // Change to your verified sender
-      subject: `Confirm your subscription to our newsletter`,
+      subject: "Confirm your subscription to our newsletter",
       html: `Hello ${req.body.name},<br>Thank you for subscribing to our newsletter. Please complete and confirm your subscription by <a href="${confirmationURL}</a>`,
     };
     await addContact(req.body.name, req.body.email);
@@ -50,7 +51,7 @@ class NewsletterService {
         const msg = {
           to: String(req.query.email),
           from: ck.TO_EMAIL, // Change to your verified sender
-          subject: `Confirm your subscription to our newsletter`,
+          subject: "Subscription Notification",
           html: `You have been successfully unsubscribed. If this was a mistake re-subscribe <a href="https://anime-scraper/signup">here</a>.`,
         };
         await sendgridMail.send(msg);

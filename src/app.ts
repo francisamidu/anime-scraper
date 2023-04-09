@@ -1,4 +1,4 @@
-import express,{json,urlencoded} from "express";
+import express, { json, urlencoded } from "express";
 import cors from "cors";
 
 import logger from "./middleware/rootLogger";
@@ -9,9 +9,10 @@ import {
   queryHTML,
   scheduleTask,
   sendEmail,
+  sendgridClient,
 } from "./helpers";
 import { api } from "./api/routes";
-
+import { SENDGRID_MARKETING_URL } from "./shared/constants";
 
 //Init server app
 const app = express();
@@ -33,6 +34,13 @@ try {
         name: "Info",
         message: `Server app runnning on port: ${PORT}`,
       });
+      sendgridClient
+        .request({
+          url: SENDGRID_MARKETING_URL,
+          method: "GET",
+        })
+        .then((res) => console.log(res))
+        .catch((error) => console.log(error));
     }) //   Fix the Error EADDRINUSE
     .on("error", () => {
       process.once("SIGUSR2", () => {
@@ -53,7 +61,6 @@ try {
   //     console.log(msg);
   //   }
   // });
-
 } catch (error) {
   console.log(getErrorMessage(error));
 }
