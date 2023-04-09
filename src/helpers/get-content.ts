@@ -127,7 +127,7 @@ export default (dom: JSDOM, name: string) => {
       let scraped: AnimeLite[] = [];
       let site = sites.find((site) => site.title.includes(name))?.link || "";
       site = site.replace("/reviews", "");
-      let itemsList = dom.window.document.querySelector(".item-news");
+      let itemsList = dom.window.document.querySelector(".items-news");
       let liElements = itemsList?.querySelectorAll("li");
       liElements?.forEach((li) => {
         let image = li.querySelector("img")?.getAttribute("src");
