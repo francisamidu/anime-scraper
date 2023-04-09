@@ -11,10 +11,10 @@ export default (dom: JSDOM, name: string) => {
         ...dom.window.document.querySelectorAll(".main-content .items li"),
       ];
       content.forEach((item) => {
-        const link = item.querySelector("a")?.getAttribute("href") || "";
-        const image =
+        let link = item.querySelector("a")?.getAttribute("href") || "";
+        let image =
           item.querySelector("img")?.getAttribute("data-savepage-src") || "";
-        const title = item.querySelector(".name")?.textContent?.trim() || "";
+        let title = item.querySelector(".name")?.textContent?.trim() || "";
         scraped.push({
           link,
           image,
@@ -25,20 +25,20 @@ export default (dom: JSDOM, name: string) => {
     }
     case "animesuge": {
       let scraped: AnimeLite[] = [];
-      const site = sites.find((site) => site.link.includes(name))?.link || "";
-      const content = [...dom.window.document.querySelectorAll(".content")];
+      let site = sites.find((site) => site.title.includes(name))?.link || "";
+      let content = [...dom.window.document.querySelectorAll(".content")];
       content.forEach((c) => {
-        const els = c.querySelectorAll("li");
-        const elements = [...els]
+        let els = c.querySelectorAll("li");
+        let elements = [...els]
           .map((element: Element) => {
-            const info = element.querySelector(".info");
-            const href =
+            let info = element.querySelector(".info");
+            let href =
               element.firstElementChild?.getAttribute("href") ||
               element.querySelector(".poster")?.getAttribute("href");
-            const image: any =
+            let image: any =
               element.querySelector(".lazyload")?.getAttribute("data-src") ||
               element.querySelector("img")?.getAttribute("src");
-            const title = info?.querySelector("a")?.textContent || "";
+            let title = info?.querySelector("a")?.textContent || "";
             return {
               link: `${site}${href}`,
               image,
@@ -52,13 +52,13 @@ export default (dom: JSDOM, name: string) => {
     }
     case "animixplay": {
       let scraped: AnimeLite[] = [];
-      const site = sites.find((site) => site.link.includes(name))?.link || "";
-      const content = dom.window.document.querySelector("#resultload");
-      const liElements = content?.querySelectorAll("li");
+      let site = sites.find((site) => site.title.includes(name))?.link || "";
+      let content = dom.window.document.querySelector("#resultload");
+      let liElements = content?.querySelectorAll("li");
       liElements?.forEach((li) => {
-        const link = li.firstElementChild?.getAttribute("href");
-        const text = li.querySelector(".name")?.textContent;
-        const image = li.querySelector("img")?.getAttribute("src");
+        let link = li.firstElementChild?.getAttribute("href");
+        let text = li.querySelector(".name")?.textContent;
+        let image = li.querySelector("img")?.getAttribute("src");
         scraped = [
           ...scraped,
           {
@@ -72,11 +72,11 @@ export default (dom: JSDOM, name: string) => {
     }
     case "requested-list": {
       let scraped: AnimeLite[] = [];
-      let site = sites.find((site) => site.link.includes(name))?.link || "";
+      let site = sites.find((site) => site.title.includes(name))?.link || "";
       site = site.replace("/requested-list", "");
-      const mainBody = dom.window.document.querySelector(".main_body");
-      const itemsList = mainBody?.querySelector(".items-request");
-      const liElements = itemsList?.querySelectorAll("li");
+      let mainBody = dom.window.document.querySelector(".main_body");
+      let itemsList = mainBody?.querySelector(".items-request");
+      let liElements = itemsList?.querySelectorAll("li");
       liElements?.forEach((li) => {
         let image = li.querySelector("img")?.getAttribute("src");
         if (!image?.includes("cdn")) {
@@ -86,7 +86,7 @@ export default (dom: JSDOM, name: string) => {
         title =
           title ||
           li?.querySelector("a")?.textContent?.replace(/["']/g, "").trim();
-        const link = li.querySelector("a")?.getAttribute("href");
+        let link = li.querySelector("a")?.getAttribute("href");
         scraped = [
           ...scraped,
           {
@@ -98,24 +98,70 @@ export default (dom: JSDOM, name: string) => {
       });
       return removeDuplicates(scraped);
     }
-    case "trailers": {
+    case "releases": {
       let scraped: AnimeLite[] = [];
-      let site = sites.find((site) => site.link.includes(name))?.link || "";
-      const mainBody = dom.window.document.querySelector(".main_body");
-      const itemsList = mainBody?.querySelector(".items-news");
-      const liElements = itemsList?.querySelectorAll("li");
+      let site = sites.find((site) => site.title.includes(name))?.link || "";
+      site = site.replace("/releases", "");
+      let itemsList = dom.window.document.querySelector(".items");
+      let liElements = itemsList?.querySelectorAll("li");
       liElements?.forEach((li) => {
         let image = li.querySelector("img")?.getAttribute("src");
         if (!image?.includes("cdn")) {
           image = li.querySelector("img")?.getAttribute("data-original");
         }
-        const el = li.querySelector(".title")?.firstElementChild;
+        let link = li.querySelector(".name a");
+        const title = link?.getAttribute("title");
+        scraped = [
+          ...scraped,
+          {
+            link: `${site}${link?.getAttribute("href")}`,
+            image: `${image}`,
+            title: `${title}`,
+          },
+        ];
+      });
+      return removeDuplicates(scraped);
+    }
+    case "reviews": {
+      let scraped: AnimeLite[] = [];
+      let site = sites.find((site) => site.title.includes(name))?.link || "";
+      site = site.replace("/releases", "");
+      let itemsList = dom.window.document.querySelector(".items");
+      let liElements = itemsList?.querySelectorAll("li");
+      liElements?.forEach((li) => {
+        let image = li.querySelector("img")?.getAttribute("src");
+        if (!image?.includes("cdn")) {
+          image = li.querySelector("img")?.getAttribute("data-original");
+        }
+        let link = li.querySelector(".title a");
+        const title = link?.getAttribute("title");
+        scraped = [
+          ...scraped,
+          {
+            link: `${site}${link?.getAttribute("href")}`,
+            image: `${image}`,
+            title: `${title}`,
+          },
+        ];
+      });
+      return removeDuplicates(scraped);
+    }
+    case "trailers": {
+      let scraped: AnimeLite[] = [];
+      let site = sites.find((site) => site.title.includes(name))?.link || "";
+      let mainBody = dom.window.document.querySelector(".main_body");
+      let itemsList = mainBody?.querySelector(".items-news");
+      let liElements = itemsList?.querySelectorAll("li");
+      liElements?.forEach((li) => {
+        let image = li.querySelector("img")?.getAttribute("src");
+        if (!image?.includes("cdn")) {
+          image = li.querySelector("img")?.getAttribute("data-original");
+        }
+        let el = li.querySelector(".title")?.firstElementChild;
         let title = el?.getAttribute("title");
         title = title || el?.textContent?.replace(/["']/g, "").trim();
         let link = el?.getAttribute("href") || "";
         link.replace("/trailers", "");
-        console.log(site);
-        console.log(link);
         scraped = [
           ...scraped,
           {
@@ -129,20 +175,20 @@ export default (dom: JSDOM, name: string) => {
     }
     case "upcoming": {
       let scraped: AnimeLite[] = [];
-      let site = sites.find((site) => site.link.includes(name))?.link || "";
+      let site = sites.find((site) => site.title.includes(name))?.link || "";
       site = site.replace("/upcoming-anime/tv-series", "");
-      const mainBody = dom.window.document.querySelector(".main_body");
-      const itemsList = mainBody?.querySelector(".items");
-      const liElements = itemsList?.querySelectorAll("li");
+      let mainBody = dom.window.document.querySelector(".main_body");
+      let itemsList = mainBody?.querySelector(".items");
+      let liElements = itemsList?.querySelectorAll("li");
       liElements?.forEach((li) => {
         let image = li.querySelector("img")?.getAttribute("src");
         if (!image?.includes("cdn")) {
           image = li.querySelector("img")?.getAttribute("data-original");
         }
-        const el = li.querySelector(".name")?.firstElementChild;
+        let el = li.querySelector(".name")?.firstElementChild;
         let title = el?.getAttribute("title");
         title = title || el?.textContent?.replace(/["']/g, "").trim();
-        const link = el?.getAttribute("href");
+        let link = el?.getAttribute("href");
         scraped = [
           ...scraped,
           {
@@ -159,8 +205,8 @@ export default (dom: JSDOM, name: string) => {
         ".page_content .news-items a"
       );
 
-      const content = removeDuplicates([...pageContent]);
-      const animeNames = content.map((el) => {
+      let content = removeDuplicates([...pageContent]);
+      let animeNames = content.map((el) => {
         let image: string = el
           ?.querySelector(".lazy")
           ?.getAttribute("data-original");
@@ -170,7 +216,7 @@ export default (dom: JSDOM, name: string) => {
           image,
         };
       });
-      const animes = animeNames.filter((anime) => anime.title);
+      let animes = animeNames.filter((anime) => anime.title);
       return removeDuplicates(animes);
     }
   }

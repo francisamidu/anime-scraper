@@ -30,6 +30,16 @@ export default [
     link: "https://gogoanime.news/news/trailers",
   },
   {
+    title: "releases",
+    file: "gogoanime-releases.html",
+    link: "https://gogoanime.news/recent-release-anime",
+  },
+  {
+    title: "reviews",
+    file: "gogoanime-reviews.html",
+    link: "https://gogoanime.news/news/reviews",
+  },
+  {
     title: "upcoming",
     file: "gogoanime-upcoming-animes.html",
     link: "https://gogoanime.news/upcoming-anime/tv-series",

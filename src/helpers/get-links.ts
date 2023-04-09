@@ -31,6 +31,20 @@ const getLinks = (dom: JSDOM, site: string): string[] => {
     case "requested-list": {
       return getGogoLinks(dom, siteLink);
     }
+    case "releases": {
+      let linkDom = dom.window.document.querySelectorAll(".pagination-list a");
+      let links = [...linkDom]
+        .map((el) => `${siteLink}${el.getAttribute("href")}`)
+        .filter((el) => !!el);
+      return links;
+    }
+    case "reviews": {
+      let linkDom = dom.window.document.querySelectorAll(".pagination-list a");
+      let links = [...linkDom]
+        .map((el) => `${siteLink}${el.getAttribute("href")}`)
+        .filter((el) => !!el);
+      return links;
+    }
     default: {
       let linkDom = dom.window.document.querySelectorAll(".anime_list a");
       let links = [...linkDom]
