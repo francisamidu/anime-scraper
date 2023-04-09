@@ -1,15 +1,15 @@
 import { sendgridClient } from "./sendgrid-client";
+import { SENDGRID_CONTACT_EMAIL } from "../shared/constants";
 
 const getContactByEmail = async (email: string) => {
   const data = {
     emails: [email],
   };
-  const request = {
-    url: `/v3/marketing/contacts/search/emails`,
+  const response = await sendgridClient.request({
+    url: SENDGRID_CONTACT_EMAIL,
     method: "POST",
     body: data,
-  };
-  const response = await sendgridClient.request(request);
+  });
   if (response[1].result[email]) return response[1].result[email].contact;
   else return null;
 };

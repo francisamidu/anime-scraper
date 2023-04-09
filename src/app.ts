@@ -47,11 +47,14 @@ const init = async () => {
           process.kill(process.pid, "SIGINT");
         });
       });
-    // const animes = await queryHTML();
-    // const html = generateHTML(animes);
-    const listID = await getListID("Newsletter Subscribers");
-    console.log(listID);
-    // sendNewsletterToList(`Anime updates for you week #${getWeek()}`,html,listID)
+    const animes = await queryHTML();
+    const html = generateHTML(animes);
+    const listID = await getListID("Anime Newsletter Subscribers");
+    await sendNewsletterToList(
+      `Anime updates for you week #${getWeek()}`,
+      html,
+      listID
+    );
     // scheduleTask("* * * * * 1", async () => {
     //   try {
     //     const animes = await queryHTML();
