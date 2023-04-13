@@ -2,5 +2,6 @@
 
 node_modules
 dist
+public
 yarn.lock
 yarn-error.log

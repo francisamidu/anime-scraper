@@ -44,21 +44,21 @@ const init = async () => {
           process.kill(process.pid, "SIGINT");
         });
       });
-    scheduleTask("* * * * * 1", async () => {
-      try {
-        const animes = await queryHTML();
-        const html = generateHTML(animes);
-        const listID = await getListID("anime-scraper-newsletter");
-        sendNewsletterToList(
-          `Anime updates for you week #${getWeek()}`,
-          html,
-          listID
-        );
-      } catch (error) {
-        const msg = getErrorMessage(error);
-        console.log(msg);
-      }
-    });
+    // scheduleTask("* * * * * 1", async () => {
+    //   try {
+    //     const animes = await queryHTML();
+    //     const html = generateHTML(animes);
+    //     const listID = await getListID("anime-scraper-newsletter");
+    //     sendNewsletterToList(
+    //       `Anime updates for you week #${getWeek()}`,
+    //       html,
+    //       listID
+    //     );
+    //   } catch (error) {
+    //     const msg = getErrorMessage(error);
+    //     console.log(msg);
+    //   }
+    // });
   } catch (error) {
     console.log(getErrorMessage(error));
   }
