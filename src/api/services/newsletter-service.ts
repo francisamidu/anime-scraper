@@ -27,27 +27,39 @@ class NewsletterService {
       } else {
         throw "Confirmation number does not match";
       }
-      return res.status(200).json({ result: "Confirmed" });
+      return res.status(200).json({ message: "Confirmed" });
     } catch (error) {
       console.error(error);
       return res.status(401).json({
-        result: "Subscription was unsuccessful. Please try again",
+        message: "Subscription was unsuccessful. Please try again",
       });
     }
   }
   static async subscribe(req: Request, res: Response) {
-    const confirmationURL = `${BASE_URL}/confirm`;
-    const msg = {
-      to: req.body.email,
-      from: ck.TO_EMAIL, // Change to your verified sender
-      subject: "Confirm your subscription to our newsletter",
-      html: `Hello ${req.body.firstName},<br>Thank you for subscribing to our newsletter. <a href="${confirmationURL}">Please complete and confirm your subscription</a>`,
-    };
-    await addContact(req.body.firstName, req.body.email);
-    await sendgridMail.send(msg);
-    return res.status(200).json({
-      result: "We have sent you an email to confirm your subscription",
-    });
+    try {
+      const confirmationURL = `${BASE_URL}/confirm`;
+      const msg = {
+        to: req.body.email,
+        from: ck.TO_EMAIL, // Change to your verified sender
+        subject: "Confirm your subscription to our newsletter",
+        html: `Hello ${req.body.firstName},<br>Thank you for subscribing to our newsletter. <a href="${confirmationURL}">Please complete and confirm your subscription</a>`,
+      };
+      const addContactResponse = await addContact(
+        req.body.firstName,
+        req.body.email
+      );
+      console.log(addContactResponse);
+      const sendEmailResponse = await sendgridMail.send(msg);
+      console.log(sendEmailResponse);
+      return res.status(200).json({
+        message: "We have sent you an email to confirm your subscription",
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(401).json({
+        message: "Email could not be subscribed. please try again.",
+      });
+    }
   }
   static async unsubscribe(req: Request, res: Response) {
     try {
@@ -68,7 +80,7 @@ class NewsletterService {
     } catch (error) {
       console.error(error);
       return res.status(401).json({
-        result: "Email could not be unsubscribed. please try again.",
+        message: "Email could not be unsubscribed. please try again.",
       });
     }
   }
