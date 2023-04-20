@@ -44,18 +44,15 @@ class NewsletterService {
         subject: "Confirm your subscription to our newsletter",
         html: `Hello ${req.body.firstName},<br>Thank you for subscribing to our newsletter. <a href="${confirmationURL}">Please complete and confirm your subscription</a>`,
       };
-      const addContactResponse = await addContact(
-        req.body.firstName,
-        req.body.email
-      );
-      console.log(addContactResponse);
-      const sendEmailResponse = await sendgridMail.send(msg);
-      console.log(sendEmailResponse);
+      addContact(req.body.firstName, req.body.email);
+      await sendgridMail.send(msg);
+
       return res.status(200).json({
         message: "We have sent you an email to confirm your subscription",
       });
     } catch (error) {
-      console.error(error);
+      const err: any = error;
+      console.error(err.response.body.errors);
       return res.status(401).json({
         message: "Email could not be subscribed. please try again.",
       });
