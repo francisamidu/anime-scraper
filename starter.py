@@ -1,8 +1,9 @@
 from requests_html import HTMLSession, HTML
 from bs4 import BeautifulSoup
+from pprint import pp
 
 # base url
-base_url = "https://gogoanime3.co/"
+base_url = "https://gogoanime3.co"
 
 # anime list
 anime_list = [
@@ -27,7 +28,7 @@ anime_list = [
         "season":"3"
     }
 ]
-
+item_elements = []
 # save fetched site into an html file
 def save_html(html, path):
     with open(f"html/{path}.html", 'wb+') as f:
@@ -46,42 +47,60 @@ def get_pagination_links(source):
     pagination_links_html = HTML(html=pagination_links_html_temp[0].html).find("li")
     for pagination_link in pagination_links_html:
         link_item = {
-            'link': f"{base_url}{(pagination_link.find("a"))[0].attrs['href']}",
+            'link': f"{base_url}/{(pagination_link.find("a"))[0].attrs['href']}",
         }
         pagination_links.append(link_item)
 
-# get annime list from html
-def get_anime_list(source):
+# get anime list from html
+def get_anime_list(source,class_name):
+    
     wrapper = source.find("#wrapper_inside")
-    latest_episodes_list_html = (wrapper[0].find(".last_episodes .items"))[0]
-
-    latest_episodes_list = HTML(html=latest_episodes_list_html.html).find("li")
-    item_elements = []
-    for list_item in latest_episodes_list:
-        img_item = (list_item.find(".img"))[0]
-        item_element = {
-            "name": (img_item.find("a"))[0].attrs['title'],
-            "episode_path": f"{base_url}{(img_item.find("a"))[0].attrs['href']}",
-            "episode_name": (list_item.find(".episode"))[0].text
-        }
-        item_elements.append(item_element)
-
-    for item in item_elements:
-        print(f"Name:{item['name']}")
-        print(f"{item['episode_name']}")
-        print(f"{item['episode_path']}")
-        print("\n")
-
+    latest_episodes_list_html = None
+    
+    if(class_name == "latest"):
+        latest_episodes_list_html = (wrapper[0].find(".last_episodes .items"))[0]
+        latest_episodes_list = HTML(html=latest_episodes_list_html.html).find("li")
+    
+        for list_item in latest_episodes_list:
+            img_item = (list_item.find(".img"))[0]
+            item_element = {
+                "name": (img_item.find("a"))[0].attrs['title'],
+                "episode_path": f"{base_url}{(img_item.find("a"))[0].attrs['href']}",
+                "episode_name": (list_item.find(".episode"))[0].text
+            }
+            item_elements.append(item_element)
+    elif class_name == "popular":       
+        popular_updates_list_html = (wrapper[0].find(".added_series_body ul li"))[0]
+        popular_updates_list = HTML(
+            html=popular_updates_list_html.html
+        ).find("li")
+        for list_item in popular_updates_list:
+            updates_list_item = (list_item.find("a"))[0]
+            item_element = {
+                "name": updates_list_item.attrs['title'],
+                "episode_path": f"{base_url}{updates_list_item.attrs['href']}",
+                "episode_name": ""
+            }
+            item_element["episode_path"] = item_element["episode_path"].replace("-dub","")
+            item_elements.append(item_element)
+        
 
 file = open_html('gogoanime')
 # get home page
 # session = HTMLSession()
-# file = session.get("")
+# file = session.get(base_url)
+# save_html(file.content,'gogoanime')
 
 html = HTML(html=file)
 
 # list_of_links = [base_url]
-# load recent releases
+# load recent releases and ongoing anime updates
 recent_releases = html.find("#load_recent_release")
+popular_update = html.find("#load_popular_ongoing")
 
 pagination_links = []
+# get_pagination_links(recent_releases)
+# get_pagination_links(popular_update)
+# get_anime_list(html, "latest")
+get_anime_list(html, "popular")
+pp(item_elements)
