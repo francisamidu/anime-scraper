@@ -83,7 +83,22 @@ def get_anime_list(source,class_name):
             }
             item_element["episode_path"] = item_element["episode_path"].replace("-dub","")
             item_elements.append(item_element)
-        
+            
+    elif class_name =="recent":
+        popular_updates_list_html = (wrapper[0].find(".added_series_body .listing li"))[0]
+        popular_updates_list = HTML(
+            html=popular_updates_list_html.html
+        ).find("li")
+        for list_item in popular_updates_list:
+            updates_list_item = (list_item.find("a"))[0]
+            item_element = {
+                "name": updates_list_item.attrs['title'],
+                "episode_path": f"{base_url}{updates_list_item.attrs['href']}",
+                "episode_name": ""
+            }
+            
+            item_elements.append(item_element)
+         
 
 file = open_html('gogoanime')
 # get home page
@@ -102,5 +117,6 @@ pagination_links = []
 # get_pagination_links(recent_releases)
 # get_pagination_links(popular_update)
 # get_anime_list(html, "latest")
-get_anime_list(html, "popular")
+# get_anime_list(html, "popular")
+get_anime_list(html, "recent")
 pp(item_elements)
