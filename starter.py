@@ -1,11 +1,10 @@
 from requests_html import HTMLSession, HTML
-from bs4 import BeautifulSoup
+from time import sleep
 from pprint import pp
+from pyquery import PyQuery
 
-# base url
+# global variables for base Url, Anime List, Scraped Animes, Pagination links
 base_url = "https://gogoanime3.co"
-
-# anime list
 anime_list = [
     {
         "english_name": "That time I got reincarnated as a slime",
@@ -29,6 +28,8 @@ anime_list = [
     }
 ]
 item_elements = []
+pagination_links = []
+
 # save fetched site into an html file
 
 
@@ -36,28 +37,39 @@ def save_html(html, path):
     with open(f"html/{path}.html", 'wb+') as f:
         f.write(html)
 
-    print(f"Done saving file {html} to {path}")
+    pp(f"Done saving file {html} to {path}")
 
 # open saved html file
 
 
 def open_html(path):
-    with open(f"html/{path}.html", 'rb') as f:
-        return f.read()
+    try:
+        with open(f"html/{path}.html", 'rb') as f:
+            return f.read()
+    except:
+        pp(f"Couldnt open file with path {path}")
+        return ""
 
 # get pagination links for html
 
 
 def get_pagination_links(source):
-    pagination_links_html_temp = HTML(
-        html=(source)[0].html).find(".pagination-list")
-    pagination_links_html = HTML(
-        html=pagination_links_html_temp[0].html).find("li")
-    for pagination_link in pagination_links_html:
-        link_item = {
-            'link': f"{base_url}/{(pagination_link.find("a"))[0].attrs['href']}",
-        }
-        pagination_links.append(link_item)
+    # Get all UL elements with the class "pagination-list"
+
+    pagination_elements = source.html.find("ul.pagination-list")
+
+    # Filter out any empty elements (assuming empty elements have no child elements)
+
+    pagination_elements = [
+        element for element in pagination_elements if element.children]
+    # pagination_links_html = HTML(
+    #     html=pagination_links_html_temp[0].html).find("li")
+    # for pagination_link in pagination_links_html:
+    #     link_item = {
+    #         'link': f"{base_url}/{(pagination_link.find("a"))[0].attrs['href']}",
+    #     }
+    #     pagination_links.append(link_item)
+    # sleep(10)
 
 # get anime list from html
 
@@ -112,23 +124,31 @@ def get_anime_list(source, class_name):
             item_elements.append(item_element)
 
 
-file = open_html('gogoanime')
+# file = open_html('gogoanime')
 # get home page
-# session = HTMLSession()
-# file = session.get(base_url)
-# save_html(file.content,'gogoanime')
+try:
+    session = HTMLSession()
+    file = session.get(base_url)
+    file.html.render(keep_page=True, timeout=30)
 
-html = HTML(html=file)
+except Exception as e:
+    pp(f"Something awful happened and your request failed, here is your full error: {
+       e}")
+
+save_html(file.content, 'gogoanime')
+
+
+html = HTML(html=open_html('gogoanime'))
+
 
 # list_of_links = [base_url]
 # load recent releases and ongoing anime updates
-recent_releases = html.find("#load_recent_release")
-popular_update = html.find("#load_popular_ongoing")
+recent_releases = html.find(".main_body #load_recent_release")
+popular_update = html.find(".pagination-list")
 
-pagination_links = []
-# get_pagination_links(recent_releases)
-# get_pagination_links(popular_update)
+# get_pagination_links(recent_releases, "")
+get_pagination_links(html)
 # get_anime_list(html, "latest")
 # get_anime_list(html, "popular")
-get_anime_list(html, "recent")
-pp(item_elements)
+# get_anime_list(html, "recent")
+# pp(pagination_links)
