@@ -87,20 +87,18 @@ def get_recently_releases():
     try:
         for link in pagination_links:
             res = session.get(link.get("link"))
-            page = HTML(html=res.content).html
-            latest_episodes_list_html = page.find(".last_episodes .items")
-            pp(latest_episodes_list_html)
-            # latest_episodes_list = HTML(
-            #     html=latest_episodes_list_html.html).find("li")
-            # for list_item in latest_episodes_list:
-            #     img_item = (list_item.find(".img"))[0]
-            #     item_element = {
-            #         "name": (img_item.find("a"))[0].attrs['title'],
-            #         "episode_path": f"{base_url}{(img_item.find("a"))[0].attrs['href']}",
-            #         "episode_name": (list_item.find(".episode"))[0].text
-            #     }
-            #     if (re.search(english_pattern, item_element.get("english_name")) is not None):
-            #         scraped_anime_list.append(item_element)
+            page = HTML(html=res.content)
+            latest_episodes_list = page.find(
+                "div.last_episodes > ul.items > li")
+            for list_item in latest_episodes_list:
+                img_item = (list_item.find(".img"))[0]
+                item_element = {
+                    "name": (img_item.find("a"))[0].attrs['title'],
+                    "episode_path": f"{base_url}{(img_item.find("a"))[0].attrs['href']}",
+                    "episode_name": (list_item.find(".episode"))[0].text
+                }
+                if (re.search(english_pattern, item_element.get("name")) is not None) or (re.search(japanese_pattern, item_element.get("name")) is not None):
+                    scraped_anime_list.append(item_element)
             sleep(10)
     except Exception as e:
         pp(f"Failed to get recent releases - {e}")
